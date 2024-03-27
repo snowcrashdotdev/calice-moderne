@@ -1,0 +1,11 @@
+services:
+  fastapi:
+    build:
+      context: ./api
+      args:
+        - "UID=${UID:-1000}"
+        - "GID=${GID:-1000}"
+    volumes:
+      - ./api:/app
+    ports:
+      - 8000:8000
