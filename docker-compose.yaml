@@ -23,6 +23,6 @@ services:
         - "UID=${UID:-1000}"
         - "GID=${GID:-1000}"
     volumes:
-      - ./api:/app
+      - ./:/app
     ports:
       - 8000
