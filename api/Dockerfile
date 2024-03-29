@@ -10,6 +10,6 @@ WORKDIR /app
 RUN pip install --user pipenv
 
 COPY Pipfile* .
-RUN pipenv install
+RUN pipenv install --system --deploy
 
 CMD ["pipenv", "run", "uvicorn", "api.index:app", "--host=0.0.0.0", "--port=8000", "--reload"]
