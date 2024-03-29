@@ -12,4 +12,4 @@ RUN pip install --user pipenv
 COPY Pipfile* .
 RUN pipenv install
 
-CMD ["pipenv", "run", "uvicorn", "index:app", "--app-dir=/app/api", "--host=0.0.0.0", "--port=8000", "--reload"]
+CMD ["pipenv", "run", "uvicorn", "api.index:app", "--host=0.0.0.0", "--port=8000", "--reload"]
