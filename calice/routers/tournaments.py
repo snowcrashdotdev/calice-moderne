@@ -1,21 +1,13 @@
-from typing import Union
-
-from pydantic import BaseModel
-from datetime import datetime
 from fastapi import APIRouter
 
-class Tournament(BaseModel):
-    title: str
-    description: Union[str, None] = None
-    start: datetime
-    end: datetime
+from calice.models import Tournament
 
 router = APIRouter(
     prefix="/tournaments",
     tags=["tournaments"]
 )
 
-@router.get("/")
+@router.get("/", response_model=Tournament)
 async def read_tournaments():
     pass
 
