@@ -1,4 +1,14 @@
 services:
+  mongo:
+    image: mongo
+    volumes:
+      - /data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: calice
+      MONGO_INITDB_ROOT_PASSWORD: calice
+      MONGO_INITDB_DATABASE: calice
+    ports:
+      - 27017
   nginx:
     image: nginx:stable-alpine
     depends_on:
@@ -24,5 +34,7 @@ services:
         - "GID=${GID:-1000}"
     volumes:
       - ./:/app
+    environment:
+      DATABASE_URL: mongodb://calice:calice@mongo:27017/calice?authSource=admin
     ports:
       - 8000
