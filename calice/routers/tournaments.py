@@ -1,16 +1,22 @@
+from typing_extensions import List
 from fastapi import APIRouter
 
-from calice.models import Tournament
+from calice.models import Tournament, BaseTournament
+from calice.repositories.tournament import TournamentRepository
 
 router = APIRouter(
     prefix="/tournaments",
     tags=["tournaments"]
 )
 
-@router.get("/", response_model=Tournament)
+@router.get("/", response_model=List[Tournament])
 async def read_tournaments():
-    pass
+    tournaments = await TournamentRepository.find()
 
-@router.post("/")
-async def create_tournament(tournament: Tournament):
-    pass
+    return tournaments
+
+@router.post("/", response_model=Tournament)
+async def create_tournament(tournament: BaseTournament):
+    new_tournament = await TournamentRepository.create(tournament)
+
+    return new_tournament
