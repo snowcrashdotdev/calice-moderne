@@ -18,7 +18,10 @@ class Resource(BaseModel):
     def default_slug(cls, v, *, values, **kwargs):
         return slugify(v) or slugify(values.get("title"))
 
-class Tournament(Resource):
+class BaseTournament(Resource):
     description: Union[str, None] = None
     start: datetime
     end: datetime
+
+class Tournament(BaseTournament, MongoDocument):
+    pass
