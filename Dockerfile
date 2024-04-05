@@ -9,7 +9,7 @@ WORKDIR /app
 RUN npm install -g pnpm
 RUN pnpm config set store-dir /home/node/.local/share/pnpm/store
 
-COPY . .
-RUN pnpm i
+COPY package*.json ./
+COPY pnpm*.yaml ./
 
-CMD [ "pnpm", "dev", "--host=0.0.0.0", "--port=3000" ]
+RUN pnpm i

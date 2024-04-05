@@ -17,14 +17,22 @@ services:
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
     ports:
-      - '9000:80'
+      - 9000:80
+      - 3001:3001
   sveltekit:
     build: .
     ports:
       - 3000
+      - 3001
     volumes:
-      - ./:/app
-      - /app/node_modules
+      - ./src:/app/src
+      - ./static:/app/static
+      - ./postcss.config.js:/app/postcss.config.js
+      - ./svelte.config.js:/app/svelte.config.js
+      - ./tailwind.config.js:/app/tailwind.config.js
+      - ./tsconfig.json:/app/tsconfig.json
+      - ./vite.config.ts:/app/vite.config.ts
+    command: pnpm dev --host=0.0.0.0 --port=3000
   fastapi:
     build:
       dockerfile: api/Dockerfile
@@ -32,9 +40,11 @@ services:
       args:
         - "UID=${UID:-1000}"
         - "GID=${GID:-1000}"
-    volumes:
-      - ./:/app
-    environment:
-      DATABASE_URL: mongodb://calice:calice@mongo:27017/calice?authSource=admin
     ports:
       - 8000
+    volumes:
+      - ./api:/app/api
+      - ./calice:/app/calice
+    environment:
+      DATABASE_URL: mongodb://calice:calice@mongo:27017/calice?authSource=admin
+    command: uvicorn api.index:app --host=0.0.0.0 --port=8000 --reload
