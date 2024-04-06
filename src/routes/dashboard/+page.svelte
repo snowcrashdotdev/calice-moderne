@@ -1,13 +1,12 @@
-<div class="flex flex-grow items-stretch self-stretch">
-    <aside class="bg-gray-200 p-3 basis-1/6">
-        <nav>
-            <ul>
-                <li>Tournaments</li>
-            </ul>
-        </nav>
-    </aside>
+<script lang="ts">
+    export let data;
+</script>
 
-    <div class="flex flex-grow items-center justify-center">
-        Coming soon...
-    </div>
+<div class="flex flex-col flex-grow gap-3 items-center justify-center">
+    {#if data.tournaments.length}
+        <p>Coming soon..</p>
+    {:else}
+        <p>No tournaments found.</p>
+        <p><a class="font-semibold bg-orange-400 rounded-2xl text-white px-5 py-2" href="/dashboard/tournaments/new">&plus; Add your first one.</a></p>
+    {/if}
 </div>
