@@ -1,6 +1,7 @@
 FROM node:18-slim
 
 ENV USER=node
+ENV NODE_ENV development
 ENV PATH="/home/node/.npm-global/bin:${PATH}"
 ENV NPM_CONFIG_PREFIX="/home/node/.npm-global"
 
