@@ -12,16 +12,19 @@ class MongoDocument(BaseModel):
 
 class Resource(BaseModel):
     title: str
-    slug: str = Field(default=None)
+    slug: Optional[str] = Field(default=None)
 
     @validator("slug", pre=True, always=True)
     def default_slug(cls, v, *, values, **kwargs):
-        return slugify(v) or slugify(values.get("title"))
+        return v or slugify(values.get("title"))
 
 class BaseTournament(Resource):
-    description: Union[str, None] = None
+    description: Optional[str] = None
     start: datetime
     end: datetime
+
+class CreateTournament(BaseTournament):
+    pass
 
 class Tournament(BaseTournament, MongoDocument):
     pass
