@@ -10,7 +10,7 @@ async function send({ method, path, data }) {
         opts.body = JSON.stringify(data)
     }
 
-    const res = await fetch(`${base}/${path.replace(/^\//, '')}`)
+    const res = await fetch(`${base}/${path.replace(/^\//, '')}`, opts)
 
     if (res.ok || res.status === 422) {
         const text = await res.text()
@@ -22,5 +22,5 @@ async function send({ method, path, data }) {
 
 export default {
     get: (path) => send({ method: 'GET', path }),
-    post: (path) => send({ method: 'POST', path })
+    post: (path, data) => send({ method: 'POST', path, data })
 }
