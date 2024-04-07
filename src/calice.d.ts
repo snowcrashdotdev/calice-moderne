@@ -26,12 +26,12 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
-        /** BaseTournament */
-        BaseTournament: {
+        /** CreateTournament */
+        CreateTournament: {
             /** Title */
             title: string;
             /** Slug */
-            slug?: string;
+            slug?: string | null;
             /** Description */
             description?: string | null;
             /**
@@ -57,7 +57,7 @@ export interface components {
             /** Title */
             title: string;
             /** Slug */
-            slug?: string;
+            slug?: string | null;
             /** Description */
             description?: string | null;
             /**
@@ -118,7 +118,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["BaseTournament"];
+                "application/json": components["schemas"]["CreateTournament"];
             };
         };
         responses: {
