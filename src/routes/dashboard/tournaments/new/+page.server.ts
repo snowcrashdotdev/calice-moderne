@@ -10,7 +10,7 @@ export const actions = {
 			serlializedData[field] = value
 		}
 
-		const res = await api.post('/tournaments', serlializedData)
+		const res = await api.post('/tournaments/', serlializedData)
 
 		if (! res.slug) return res
 		
