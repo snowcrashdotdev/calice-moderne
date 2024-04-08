@@ -14,6 +14,6 @@ export const actions = {
 
 		if (! res.slug) return res
 		
-		throw redirect(300, `/dashboard/tournaments/${res.slug}/edit`)
+		throw redirect(303, `/dashboard/tournaments/${res.slug}/edit`)
 	}
 };
