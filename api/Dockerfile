@@ -1,8 +1,6 @@
 FROM python:3.9-slim
-ARG UID=1000
-ARG GID=1000
-RUN groupadd -g "${GID}" python \
-  && useradd --create-home --no-log-init -u "${UID}" -g "${GID}" python
+RUN groupadd -g 3030 python
+RUN useradd --create-home --no-log-init -g 3030 python
 
 USER python
 ENV PATH="${PATH}:/home/python/.local/bin"

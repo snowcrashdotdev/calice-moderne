@@ -24,7 +24,9 @@ services:
     ports:
       - 3000
       - 3001
+    user: node:node
     volumes:
+      - /app/.svelte-kit
       - ./src:/app/src
       - ./static:/app/static
       - ./postcss.config.js:/app/postcss.config.js
@@ -37,11 +39,9 @@ services:
     build:
       dockerfile: api/Dockerfile
       context: .
-      args:
-        - "UID=${UID:-1000}"
-        - "GID=${GID:-1000}"
     ports:
       - 8000
+    user: python:python
     volumes:
       - ./api:/app/api
       - ./calice:/app/calice

@@ -1,12 +1,12 @@
 FROM node:18-slim
 
-ENV USER=node
 ENV NODE_ENV development
 ENV PATH="/home/node/.npm-global/bin:${PATH}"
 ENV NPM_CONFIG_PREFIX="/home/node/.npm-global"
 
-USER "${USER}"
+USER node
 WORKDIR /app
+RUN mkdir -p ./.svelte-kit
 RUN npm install -g pnpm
 RUN pnpm config set store-dir /home/node/.local/share/pnpm/store
 
