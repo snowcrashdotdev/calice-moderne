@@ -25,5 +25,6 @@ async function send({ method, path, data } : { method: CaliceHttpMethod, path: C
 
 export default {
     get: (path: CaliceRESTRoute) => send({ method: 'get', path }),
-    post: (path: CaliceRESTRoute, data: object) => send({ method: 'post', path, data })
+    post: (path: CaliceRESTRoute, data: object) => send({ method: 'post', path, data }),
+    put: (path, data) => send({ method: 'put', path, data })
 }

@@ -13,9 +13,27 @@ export interface paths {
         };
         /** Read Tournaments */
         get: operations["read_tournaments_tournaments__get"];
-        put?: never;
+        /** Update Tournament */
+        put: operations["update_tournament_tournaments__put"];
         /** Create Tournament */
         post: operations["create_tournament_tournaments__post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/tournaments/{tournament_slug}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Read Tournament */
+        get: operations["read_tournament_tournaments__tournament_slug__get"];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -109,6 +127,39 @@ export interface operations {
             };
         };
     };
+    update_tournament_tournaments__put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Tournament"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Tournament"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     create_tournament_tournaments__post: {
         parameters: {
             query?: never;
@@ -121,6 +172,37 @@ export interface operations {
                 "application/json": components["schemas"]["CreateTournament"];
             };
         };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Tournament"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    read_tournament_tournaments__tournament_slug__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                tournament_slug: unknown;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
