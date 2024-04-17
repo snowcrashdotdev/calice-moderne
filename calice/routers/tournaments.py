@@ -20,3 +20,15 @@ async def create_tournament(tournament: CreateTournament):
     new_tournament = await TournamentRepository.create(tournament)
 
     return new_tournament
+
+@router.get("/{tournament_slug}", response_model=Tournament)
+async def read_tournament(tournament_slug):
+    tournament = await TournamentRepository.findOne(tournament_slug)
+
+    return tournament
+
+@router.put("/", response_model=Tournament)
+async def update_tournament(tournament: Tournament):
+    updated_tournament = await TournamentRepository.update(tournament)
+
+    return updated_tournament
