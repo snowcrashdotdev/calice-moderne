@@ -1,7 +1,11 @@
 import { error } from "@sveltejs/kit";
 import type { CaliceHttpMethod, CaliceRESTRoute } from "$lib/types";
 
-const base = 'http://fastapi:8000/api'
+const apiProtocol = process.env.NODE_ENV === 'development' ? 'http' : 'https'
+const apiHost = process.env.VERCEL_URL || 'fastapi:8000'
+const apiPath = 'api'
+
+const apiBaseUrl = `${apiProtocol}://${apiHost}/${apiPath}`
 
 async function send({ method, path, data } : { method: CaliceHttpMethod, path: CaliceRESTRoute, data?: object }) {
     const opts : RequestInit = { method }
@@ -13,7 +17,7 @@ async function send({ method, path, data } : { method: CaliceHttpMethod, path: C
         opts.body = JSON.stringify(data)
     }
 
-    const res = await fetch(`${base}${path}`, opts)
+    const res = await fetch(`${apiBaseUrl}${path}`, opts)
 
     if (res.ok || res.status === 422) {
         const text = await res.text()
