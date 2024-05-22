@@ -24,16 +24,8 @@ services:
     ports:
       - 3000
       - 3001
-    user: node:node
     volumes:
-      - /app/.svelte-kit
-      - ./src:/app/src
-      - ./static:/app/static
-      - ./postcss.config.js:/app/postcss.config.js
-      - ./svelte.config.js:/app/svelte.config.js
-      - ./tailwind.config.js:/app/tailwind.config.js
-      - ./tsconfig.json:/app/tsconfig.json
-      - ./vite.config.ts:/app/vite.config.ts
+      - ./:/app
     command: pnpm dev --host=0.0.0.0 --port=3000
   fastapi:
     build:
@@ -41,10 +33,8 @@ services:
       context: .
     ports:
       - 8000
-    user: python:python
     volumes:
-      - ./api:/app/api
-      - ./calice:/app/calice
+      - ./:/app
     environment:
       DATABASE_URL: mongodb://calice:calice@mongo:27017/calice?authSource=admin
     command: uvicorn api.index:app --host=0.0.0.0 --port=8000 --reload

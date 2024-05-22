@@ -1,14 +1,10 @@
 FROM node:18-slim
 
 ENV NODE_ENV development
-ENV PATH="/home/node/.npm-global/bin:${PATH}"
-ENV NPM_CONFIG_PREFIX="/home/node/.npm-global"
 
-USER node
 WORKDIR /app
-RUN mkdir -p ./.svelte-kit
-RUN npm install -g pnpm
-RUN pnpm config set store-dir /home/node/.local/share/pnpm/store
+RUN corepack enable
+RUN corepack prepare pnpm@latest --activate
 
 COPY package*.json ./
 COPY pnpm*.yaml ./
