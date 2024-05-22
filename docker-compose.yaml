@@ -21,16 +21,23 @@ services:
       - 3001:3001
   sveltekit:
     build: .
+    depends_on:
+      - fastapi
     ports:
-      - 3000
+      - 5173
       - 3001
     volumes:
       - ./:/app
-    command: pnpm dev --host=0.0.0.0 --port=3000
+      - /app/.sveltekit
+      - /app/node_modules
+      - /app/.pnpm-store
+    command: pnpm dev -- host
   fastapi:
     build:
       dockerfile: api/Dockerfile
       context: .
+    depends_on:
+      - mongo
     ports:
       - 8000
     volumes:
