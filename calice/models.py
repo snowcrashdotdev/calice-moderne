@@ -1,14 +1,10 @@
 from datetime import datetime
 from typing_extensions import Annotated, Optional, Union
 
+from beanie import Document, Indexed
 from pydantic import BaseModel, BeforeValidator, Field, validator
 
 from calice.utils import slugify
-
-PyObjectId = Annotated[str, BeforeValidator(str)]
-
-class MongoDocument(BaseModel):
-    id: Optional[PyObjectId] = Field(alias="_id", default=None)
 
 class Resource(BaseModel):
     title: str
@@ -26,5 +22,8 @@ class BaseTournament(Resource):
 class CreateTournament(BaseTournament):
     pass
 
-class Tournament(BaseTournament, MongoDocument):
-    pass
+class Tournament(BaseTournament, Document):
+    slug: Annotated[str, Indexed(unique=True)]
+
+    class Settings:
+        name = "tournaments"
