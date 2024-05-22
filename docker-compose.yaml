@@ -2,7 +2,7 @@ services:
   mongo:
     image: mongo
     volumes:
-      - /data/db
+      - mongodb_data:/data/db
     environment:
       MONGO_INITDB_ROOT_USERNAME: calice
       MONGO_INITDB_ROOT_PASSWORD: calice
@@ -45,3 +45,6 @@ services:
     environment:
       DATABASE_URL: mongodb://calice:calice@mongo:27017/calice?authSource=admin
     command: uvicorn api.index:app --host=0.0.0.0 --port=8000 --reload
+volumes:
+  mongodb_data:
+    driver: local
