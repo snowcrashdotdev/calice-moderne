@@ -7,9 +7,8 @@ name = "pypi"
 fastapi = "*"
 uvicorn = "*"
 beanie = "*"
-pydantic = "~=1.7"
 
 [dev-packages]
 
 [requires]
-python_version = "3.9"
+python_version = "3.12"
