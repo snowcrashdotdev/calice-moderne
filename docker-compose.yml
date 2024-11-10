@@ -2,9 +2,17 @@ services:
   api:
     build: api
     ports:
-      - 9001:80
+      - 3001:80
     volumes:
       - ./api:/src
+  ui:
+    build: ui
+    ports:
+      - 3000:80
+    volumes:
+      - ./ui/app:/src
+      - /src/.next
+      - /src/node_modules
   db:
     image: postgres:17.0
     environment:
