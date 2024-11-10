@@ -1,0 +1,6 @@
+CREATE USER calice WITH ENCRYPTED PASSWORD 'calice';
+
+CREATE DATABASE calice_dev;
+CREATE DATABASE calice_test;
+ALTER DATABASE calice_dev OWNER TO calice;
+ALTER DATABASE calice_test OWNER TO calice;
