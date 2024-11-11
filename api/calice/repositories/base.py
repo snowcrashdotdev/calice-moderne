@@ -1,6 +1,7 @@
+from pydantic import BaseModel
+from sqlalchemy import select
 from calice.dependencies.database import DatabaseDep
 from calice.models.orm.base import Base
-from pydantic import BaseModel
 
 def RepositoryFactory(model: Base):
     class BaseRepository:
@@ -14,8 +15,15 @@ def RepositoryFactory(model: Base):
             await self.session.refresh(db_model)
 
             return db_model
+        
+        async def find_one(self, *args, **kwargs):
+            attr, value = next(iter(kwargs.items()), None)
 
-    
+            q = select(model).where(getattr(model, attr) == value)
+            res = await self.session.execute(q)
+
+            return res.unique().scalar_one_or_none()
+
     BaseRepository.model = model
     
     return BaseRepository
