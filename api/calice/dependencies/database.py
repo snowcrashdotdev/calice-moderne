@@ -22,5 +22,7 @@ async def get_db():
         except exc.SQLAlchemyError as error:
             await session.rollback()
             raise error
+        finally:
+            await session.close()
 
 DatabaseDep = Annotated[AsyncSession, Depends(get_db)]
