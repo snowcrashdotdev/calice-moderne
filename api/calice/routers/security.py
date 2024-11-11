@@ -97,7 +97,7 @@ async def request_access_token(user: Annotated[User | None, Depends(authenticate
 
 @router.post("/signup", response_model=UserRead)
 async def signup(user: UserCreate, user_repository: Annotated[UserRepository, Depends(UserRepository)]):
-    hashed_password = hash_password(user.password)
+    hashed_password = await hash_password(user.password)
 
     new_user = await user_repository.create(
         UserNew(username=user.username, hashed_password=hashed_password)
