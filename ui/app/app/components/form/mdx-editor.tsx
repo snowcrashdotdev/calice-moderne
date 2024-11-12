@@ -16,6 +16,8 @@ export default function InitializedMDXEditor({
 }: { editorRef: ForwardedRef<MDXEditorMethods> | null } & MDXEditorProps) {
     return (
         <MDXEditor
+            className="border border-gray-800 rounded"
+            contentEditableClassName="prose"
             plugins={[
                 headingsPlugin(),
                 listsPlugin(),
