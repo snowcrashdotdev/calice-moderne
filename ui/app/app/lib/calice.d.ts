@@ -45,10 +45,11 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Read Root */
-        get: operations["read_root_tournaments__get"];
+        /** Index Tournaments */
+        get: operations["index_tournaments_tournaments__get"];
         put?: never;
-        post?: never;
+        /** Create Tournament */
+        post: operations["create_tournament_tournaments__post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -89,6 +90,25 @@ export interface components {
             /** Tokentype */
             tokenType: string;
         };
+        /** TournamentCreate */
+        TournamentCreate: {
+            /** Title */
+            title: string;
+            /** Description */
+            description: string;
+            /** Slug */
+            slug: string | null;
+            /**
+             * Starttime
+             * Format: date-time
+             */
+            startTime: string;
+            /**
+             * Endtime
+             * Format: date-time
+             */
+            endTime: string;
+        };
         /** TournamentRead */
         TournamentRead: {
             /**
@@ -98,6 +118,8 @@ export interface components {
             id: string;
             /** Title */
             title: string;
+            /** Description */
+            description: string;
             /** Slug */
             slug: string;
         };
@@ -197,7 +219,7 @@ export interface operations {
             };
         };
     };
-    read_root_tournaments__get: {
+    index_tournaments_tournaments__get: {
         parameters: {
             query?: never;
             header?: never;
@@ -213,6 +235,39 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["TournamentRead"][];
+                };
+            };
+        };
+    };
+    create_tournament_tournaments__post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TournamentCreate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TournamentRead"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
                 };
             };
         };
