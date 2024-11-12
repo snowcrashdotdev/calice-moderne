@@ -1,10 +1,8 @@
-from pydantic import BaseModel
+from calice.models.validation.base import Base
 from uuid import UUID
 
-class TournamentRead(BaseModel):
+
+class TournamentRead(Base):
     id: UUID
     title: str
     slug: str
-
-    class Config:
-       from_attributes = True

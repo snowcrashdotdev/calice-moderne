@@ -74,8 +74,8 @@ export async function login(_state: LoginFormState, formData: FormData) {
             message: "Server error."
         }
     } else {
-        const { access_token } = await res.json()
-        await createSession(access_token)
+        const { accessToken } = await res.json()
+        await createSession(accessToken)
         redirect("/")
     }
 }

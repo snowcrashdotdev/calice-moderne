@@ -1,11 +1,14 @@
-from pydantic import BaseModel
+from calice.models.validation.base import Base
 
-class Token(BaseModel):
+
+class Token(Base):
     access_token: str
     token_type: str
 
-class TokenData(BaseModel):
+
+class TokenData(Base):
     sub: str
 
-class ReadToken(BaseModel):
+
+class ReadToken(Base):
     username: str

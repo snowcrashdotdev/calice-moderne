@@ -1,16 +1,15 @@
-from pydantic import BaseModel
+from calice.models.validation.base import Base
 
-class UserCreate(BaseModel):
+
+class UserCreate(Base):
     username: str
     password: str
 
-class UserNew(BaseModel):
+
+class UserNew(Base):
     username: str
     hashed_password: str
 
 
-class UserRead(BaseModel):
+class UserRead(Base):
     username: str
-    
-    class Config:
-       from_attributes = True
