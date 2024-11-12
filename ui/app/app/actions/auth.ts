@@ -1,7 +1,7 @@
 "use server";
 import { redirect } from "next/navigation";
 import { SignupFormSchema } from "@/app/lib/validation";
-import { createSession } from "@/app/lib/session";
+import { createSession, deleteSession } from "@/app/lib/session";
 import { env } from "@/app/lib/env.mjs"
 
 type SignupFormValues = {
@@ -78,4 +78,10 @@ export async function login(_state: LoginFormState, formData: FormData) {
         await createSession(access_token)
         redirect("/")
     }
+}
+
+export async function logout() {
+    await deleteSession()
+
+    redirect("/")
 }
