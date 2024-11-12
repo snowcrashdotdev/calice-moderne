@@ -23,10 +23,6 @@ export async function createSession(token: string = "") {
 
     const expires = exp ? new Date(exp * 1000) : DEFAULT_EXP()
 
-    console.debug(exp)
-    console.debug(expires)
-    console.debug(token)
-
     cookieStore.set(
         SESSION_COOKIE,
         token,
@@ -45,17 +41,23 @@ export async function deleteSession() {
     cookieStore.delete(SESSION_COOKIE)
 }
 
-export const verifySession = cache(async () => {
+type Session = {
+    isAuth: boolean
+    user?: string
+}
+
+export const verifySession = cache(async () : Promise<Session> => {
+    const notAuthenticated = { isAuth: false }
     const cookie = (await cookies()).get('session')?.value
 
     if (!cookie) {
-        redirect("/login")
+        return notAuthenticated
     }
 
     const session = await decrypt(cookie)
 
     if (!session?.sub) {
-        redirect("/login")
+        return notAuthenticated
     }
 
     return { isAuth: true, user: session.sub }
