@@ -32,8 +32,13 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <header className="flex justify-end px-5 py-2">
-          {session.isAuth  && (<Logout />)}
+        <header className="flex justify-end px-5 py-2 gap-x-5">
+          {session.isAuth && (
+            <>
+              <p>Welcome, {session.user}</p>
+              <Logout />
+            </>
+          )}
         </header>
 
         {children}

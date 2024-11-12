@@ -1,20 +1,19 @@
 import "server-only"
 import { cookies } from 'next/headers'
-import { jwtVerify } from "jose"
-import { env } from "@/app/lib/env.mjs"
-import { redirect } from "next/navigation"
 import { cache } from "react"
 
-const SECRET_KEY = new TextEncoder().encode(env.API_SHARED_SECRET)
 const DEFAULT_EXP = () => new Date(Date.now() + 15 * 60 * 100)
 export const SESSION_COOKIE = "session"
 
-export async function decrypt(token: string = "") {
-    const { payload } = await jwtVerify(token, SECRET_KEY, {
-        algorithms: ['HS256']
-    })
+type TokenData = {
+    sub: string
+    exp: number
+}
 
-    return payload
+export async function decrypt(token: string = "") {
+    const [ _header, claims, ..._rest ] =  token.split(".")
+
+    return JSON.parse(Buffer.from(claims, "base64url").toString()) as TokenData
 }
 
 export async function createSession(token: string = "") {

@@ -3,8 +3,7 @@ import { z } from "zod";
 
 export const env = createEnv({
     server: {
-        API_URL: z.string().url(),
-        API_SHARED_SECRET: z.string().min(8)
+        API_URL: z.string().url()
     },
     experimental__runtimeEnv: process.env
 });
