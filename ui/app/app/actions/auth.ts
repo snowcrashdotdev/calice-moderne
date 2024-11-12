@@ -1,5 +1,6 @@
 "use server";
 import { redirect } from "next/navigation";
+import { request } from "@/app/lib/sdk";
 import { SignupFormSchema } from "@/app/lib/validation";
 import { createSession, deleteSession } from "@/app/lib/session";
 import { env } from "@/app/lib/env.mjs"
@@ -33,21 +34,19 @@ export async function signup(_state: SignupFormState, formData: FormData) {
 
     const { username, password } = validatedSignupForm.data
 
-    const res = await fetch(`${env.API_URL.replace(/\/$/, "")}/signup`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username, password })
-    })
+    try {
+        await request({
+            path: "/signup",
+            method: "post",
+            data: { username, password }
+        })
 
-    if (res.status >= 400) {
+        redirect("/login")
+    } catch {
         return {
             values,
             message: "Unexpected server error."
         }
-    } else {
-        redirect("/login")
     }
 }
 

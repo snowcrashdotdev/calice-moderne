@@ -1,8 +1,11 @@
-import { get } from "@/app/lib/sdk"
+import { request } from "@/app/lib/sdk"
 import { TournamentList } from "@/app/components/tournament/tournament-list"
 
 export default async function Home() {
-  const tournaments = await get("/tournaments/")
+  const tournaments = await request({
+    path: "/tournaments/",
+    method: "get"
+  })
   
   return (
     <main>
