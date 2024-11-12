@@ -1,19 +1,8 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 import { verifySession } from "@/app/lib/session";
 import { Logout } from "@/app/components/auth/logout";
 import "./globals.css";
-
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Calice Cup",
@@ -29,16 +18,14 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className="p-6">
         <header className="flex justify-end px-5 py-2 gap-x-5">
-          {session.isAuth && (
+          {session.isAuth ? (
             <>
               <p>Welcome, {session.user}</p>
               <Logout />
             </>
-          )}
+          ) : <Link href="/login">Login</Link>}
         </header>
 
         {children}
