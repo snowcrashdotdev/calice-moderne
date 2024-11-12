@@ -13,4 +13,4 @@ class User(Base, UuidMixin):
     __tablename__ = "users"
     username: Mapped[str] = mapped_column(unique=True, index=True, nullable=False)
     hashed_password: Mapped[str] = mapped_column(nullable=False)
-    role: Mapped[List[str]] = mapped_column(ARRAY(String), default=[])
+    role: Mapped[List[str]] = mapped_column(ARRAY(String), default=["USER"])
