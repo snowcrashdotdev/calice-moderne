@@ -18,7 +18,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className="p-6">
+      <body className="flex flex-col min-h-screen p-6">
         <header className="flex justify-end px-5 py-2 gap-x-5">
           {session.isAuth ? (
             <>

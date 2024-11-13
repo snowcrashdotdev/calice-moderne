@@ -12,14 +12,22 @@ export function TournamentForm() {
     const [markdown, setMarkdown] = useState("")
 
     return (
-        <form action={action}>
-            <Field label="Title">
-                <input id="title" name="title" type="text"></input>
+        <form action={action} className="flex flex-col gap-y-5 items-start justify-start">
+            <Field label="Title" error={state?.errors?.title}>
+                <input id="title" name="title" type="text" defaultValue={state?.values?.title}></input>
             </Field>
 
-            <Field label="Description" htmlFor="description">
+            <Field label="Start Time" error={state?.errors?.startTime}>
+                <input id="startTime" name="startTime" type="datetime-local" defaultValue={state?.values?.startTime}></input>
+            </Field>
+
+            <Field label="End Time" error={state?.errors?.endTime}>
+                <input id="endTime" name="endTime" type="datetime-local" defaultValue={state?.values?.endTime}></input>
+            </Field>
+
+            <Field label="Description" htmlFor="description" error={state?.errors?.description}>
                 <input type="hidden" value={markdown} id="description" name="description"></input>
-                <Editor markdown="" onChange={setMarkdown} />
+                <Editor markdown={state?.values.description ?? ""} onChange={setMarkdown} />
             </Field>
 
             <Submit label="Create Tournament" />

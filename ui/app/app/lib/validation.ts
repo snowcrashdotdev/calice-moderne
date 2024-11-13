@@ -12,3 +12,10 @@ export const SignupFormSchema = z.object({
         .trim(),
     confirmPassword: z.string()
 }).refine(v => v.password === v.confirmPassword, { message: "Passwords must match", path: ["confirmPassword"] })
+
+export const TournamentFormSchema = z.object({
+    title: z.string(),
+    description: z.string(),
+    startTime: z.coerce.date(),
+    endTime: z.coerce.date(),
+}).refine(v => v.endTime > v.startTime, { message: "Tournament must have later end time than start time.", path: ["endTime"] })
