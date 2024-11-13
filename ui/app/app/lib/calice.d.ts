@@ -97,7 +97,7 @@ export interface components {
             /** Description */
             description: string;
             /** Slug */
-            slug: string | null;
+            slug?: string;
             /**
              * Starttime
              * Format: date-time
