@@ -16,17 +16,25 @@ interface ApiRequest<P extends Path, M extends Method<P>> {
     path: P
     method: M
     data?: Body<P, M>,
-    params?: Params<P, M> extends undefined ? [] : [Params<P, M>]
+    params?: Params<P, M> extends undefined ? undefined : Params<P, M>
 }
 
 export async function request<P extends Path, M extends Method<P>>({
     path,
     method,
     data,
-    ...params
+    params
 }: ApiRequest<P, M>): Promise<ApiResponse<P, M>> {
     const cookieStore = await cookies()
-    const url = new URL(path, env.API_URL)
+
+    let parameterizedPath = path
+    if (params?.path) {
+        for (const [key, value] of Object.entries(params?.path)) {
+            parameterizedPath = parameterizedPath.replace(`{${key}}`, value)
+        }
+    }
+
+    const url = new URL(parameterizedPath, env.API_URL)
     const init: RequestInit = {
         method,
         headers: {
