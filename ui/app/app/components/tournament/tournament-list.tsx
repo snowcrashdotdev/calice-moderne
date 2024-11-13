@@ -8,7 +8,7 @@ export function TournamentList({ tournaments }: { tournaments: Tournament[] }) {
 
     return (
         <div>
-            {tournaments.map(t => <TournamentSummary key={t.id} tournament={t} />)}
+            {tournaments.map(t => <TournamentSummary key={t.id} {...t} />)}
         </div>
     )
 }

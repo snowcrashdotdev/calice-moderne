@@ -1,10 +1,12 @@
 import Link from "next/link";
-import { Tournament } from "@/app/lib/sdk";
+import Markdown from "react-markdown";
+import type { Tournament } from "@/app/lib/sdk";
 
-export function TournamentSummary({ tournament } : { tournament: Tournament }) {
+export function TournamentSummary({ slug, title, description }: Tournament) {
     return (
         <div>
-            <h2><Link href={`/${tournament.slug}`}>{tournament.title}</Link></h2>
+            <h2><Link href={`/${slug}`}>{title}</Link></h2>
+            <Markdown className="prose">{description}</Markdown>
         </div>
     )
 }
