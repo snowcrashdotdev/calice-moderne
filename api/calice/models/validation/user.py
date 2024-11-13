@@ -1,9 +1,10 @@
+from pydantic import Field
 from calice.models.validation.base import Base
 
 
 class UserCreate(Base):
     username: str
-    password: str
+    password: str = Field(min_length=8, max_length=64)
 
 
 class UserNew(Base):
