@@ -11,7 +11,7 @@ type TokenData = {
 }
 
 export async function decrypt(token: string = "") {
-    const [ _header, claims, ..._rest ] =  token.split(".")
+    const [_header, claims, ..._rest] = token.split(".")
 
     return JSON.parse(Buffer.from(claims, "base64url").toString()) as TokenData
 }
@@ -45,9 +45,13 @@ type Session = {
     user?: string
 }
 
-export const verifySession = cache(async () : Promise<Session> => {
+export const getAccessToken = cache(async (): Promise<string | undefined> => {
+    return (await cookies()).get('session')?.value
+})
+
+export const verifySession = cache(async (): Promise<Session> => {
     const notAuthenticated = { isAuth: false }
-    const cookie = (await cookies()).get('session')?.value
+    const cookie = await getAccessToken()
 
     if (!cookie) {
         return notAuthenticated

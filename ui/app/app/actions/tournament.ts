@@ -34,13 +34,18 @@ export async function create(_state: TournamentFormState, formData: FormData) {
             errors: validatedTournamentForm.error.flatten().fieldErrors
         }
     } else {
-        const newTournament = await request({
-            path: "/tournaments/",
-            method: "post",
-            data: validatedTournamentForm.data,
+        const { data: newTournament, error } = await request.POST("/tournaments/", {
+            body: validatedTournamentForm.data,
         })
 
-        revalidatePath("/")
-        redirect(`/${newTournament.slug}`)
+        if (error) {
+            return {
+                values,
+                message: "Encountered server error."
+            }
+        } else {
+            revalidatePath("/")
+            redirect(`/${newTournament.slug}`)
+        }
     }
 }

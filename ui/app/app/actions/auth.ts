@@ -34,19 +34,17 @@ export async function signup(_state: SignupFormState, formData: FormData) {
 
     const { username, password } = validatedSignupForm.data
 
-    try {
-        await request({
-            path: "/signup",
-            method: "post",
-            data: { username, password }
-        })
+    const { error } = await request.POST("/signup", {
+        body: { username, password }
+    })
 
-        redirect("/login")
-    } catch {
+    if (error) {
         return {
             values,
-            message: "Unexpected server error."
+            message: "Server error encountered."
         }
+    } else {
+        redirect("/login")
     }
 }
 

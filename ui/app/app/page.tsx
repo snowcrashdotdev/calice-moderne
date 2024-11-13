@@ -2,14 +2,11 @@ import { request } from "@/app/lib/sdk"
 import { TournamentList } from "@/app/components/tournament/tournament-list"
 
 export default async function Home() {
-  const tournaments = await request({
-    path: "/tournaments/",
-    method: "get"
-  })
-  
+  const { data: tournaments, error } = await request.GET("/tournaments/")
+
   return (
     <main>
-      <TournamentList tournaments={tournaments} />
+      <TournamentList tournaments={tournaments ?? []} />
     </main>
   )
 }

@@ -1,56 +1,26 @@
 import "server-only"
 
-import { cookies } from "next/headers"
+import createClient, { type Middleware } from "openapi-fetch"
+import { getAccessToken } from "@/app/lib/session"
 import { env } from "@/app/lib/env.mjs"
 import { components, paths } from "@/app/lib/calice"
 
 export type Tournament = components["schemas"]["TournamentRead"]
 
-type Path = Extract<keyof paths, string>
-type Method<P extends Path> = Extract<keyof paths[P], string>
-type Params<P extends Path, M extends Method<P>> = "parameters" extends keyof paths[P][M] ? paths[P][M]["parameters"] : undefined
-type Body<P extends Path, M extends Method<P>> = "requestBody" extends keyof paths[P][M] ? paths[P][M]["requestBody"]["content"]["application/json"] : undefined
-type ApiResponse<P extends Path, M extends Method<P>> = paths[P][M]["responses"][200]["content"]["application/json"]
+const request = createClient<paths>({ baseUrl: env.API_URL })
 
-interface ApiRequest<P extends Path, M extends Method<P>> {
-    path: P
-    method: M
-    data?: Body<P, M>,
-    params?: Params<P, M> extends undefined ? undefined : Params<P, M>
-}
+const authMiddleware: Middleware = {
+    onRequest: async ({ request }) => {
+        const accessToken = await getAccessToken()
 
-export async function request<P extends Path, M extends Method<P>>({
-    path,
-    method,
-    data,
-    params
-}: ApiRequest<P, M>): Promise<ApiResponse<P, M>> {
-    const cookieStore = await cookies()
-
-    let parameterizedPath = path
-    if (params?.path) {
-        for (const [key, value] of Object.entries(params?.path)) {
-            parameterizedPath = parameterizedPath.replace(`{${key}}`, value)
+        if (accessToken) {
+            request.headers.set("Authorization", `Bearer ${accessToken}`)
         }
-    }
 
-    const url = new URL(parameterizedPath, env.API_URL)
-    const init: RequestInit = {
-        method,
-        headers: {
-            "Cookie": cookieStore.toString(),
-            "Content-Type": "application/json"
-        },
-        body: data ? JSON.stringify(data) : null,
-    }
-
-    const res = await fetch(url, init)
-
-    if (res.status >= 400) {
-        throw new Error("Unexpected server error.")
-    } else {
-        const json = await res.json()
-
-        return json
+        return request
     }
 }
+
+request.use(authMiddleware)
+
+export { request }
