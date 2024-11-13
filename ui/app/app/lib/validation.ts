@@ -15,7 +15,8 @@ export const SignupFormSchema = z.object({
 
 export const TournamentFormSchema = z.object({
     title: z.string(),
+    slug: z.string().optional(),
     description: z.string(),
-    startTime: z.coerce.date(),
-    endTime: z.coerce.date(),
+    startTime: z.coerce.date().transform(d => d.toISOString()),
+    endTime: z.coerce.date().transform(d => d.toISOString()),
 }).refine(v => v.endTime > v.startTime, { message: "Tournament must have later end time than start time.", path: ["endTime"] })
