@@ -8,6 +8,7 @@ class Token(Base):
 
 class TokenData(Base):
     sub: str
+    scopes: str = []
 
 
 class ReadToken(Base):

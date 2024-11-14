@@ -1,7 +1,8 @@
 from datetime import timedelta
 from fastapi import APIRouter
-from calice.dependencies import CurrentUser
+from calice.dependencies import AuthenticatedUser
 from calice.dependencies.security import (
+    get_capabilities,
     create_access_token,
     hash_password,
     invalid_credentials_exception,
@@ -16,12 +17,12 @@ router = APIRouter()
 
 
 @router.post("/token", response_model=Token)
-async def request_access_token(user: CurrentUser):
+async def request_access_token(user: AuthenticatedUser):
     if user is None:
         raise invalid_credentials_exception
 
     access_token = await create_access_token(
-        data=TokenData(sub=user.username),
+        data=TokenData(sub=user.username, scopes=get_capabilities(user.role)),
         expires_delta=timedelta(minutes=JWT_EXPIRE_MINUTES),
     )
 
@@ -33,7 +34,7 @@ async def signup(
     user: UserCreate,
     user_repository: UserRepository,
 ):
-    hashed_password = await hash_password(user.password)
+    hashed_password = hash_password(user.password)
 
     new_user = await user_repository.create(
         UserNew(username=user.username, hashed_password=hashed_password)

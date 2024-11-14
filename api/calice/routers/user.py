@@ -1,5 +1,6 @@
 from typing import List
 from fastapi import APIRouter
+from calice.dependencies.security import can_manage_user
 from calice.repositories import UserRepository
 from calice.models.validation.user import UserRead, UserPatch
 
@@ -13,7 +14,7 @@ async def index_users(user_repository: UserRepository):
     return users
 
 
-@router.patch("/", response_model=UserRead)
+@router.patch("/", response_model=UserRead, dependencies=[can_manage_user])
 async def patch_user(patch: UserPatch, user_repository: UserRepository):
     user = await user_repository.update(patch)
 

@@ -1,5 +1,6 @@
 from typing import List
 from fastapi import APIRouter
+from calice.dependencies.security import can_manage_tournament
 from calice.repositories import TournamentRepository
 from calice.models.validation.tournament import TournamentCreate, TournamentRead
 
@@ -20,9 +21,10 @@ async def read_tournament(slug: str, tournament_repository: TournamentRepository
     return tournament
 
 
-@router.post("/", response_model=TournamentRead)
+@router.post("/", response_model=TournamentRead, dependencies=[can_manage_tournament])
 async def create_tournament(
-    tournament: TournamentCreate, tournament_repository: TournamentRepository
+    tournament: TournamentCreate,
+    tournament_repository: TournamentRepository,
 ):
     new_tournament = await tournament_repository.create(tournament)
 
