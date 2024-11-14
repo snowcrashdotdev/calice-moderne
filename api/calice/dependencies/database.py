@@ -6,7 +6,7 @@ from sqlalchemy.ext.asyncio import (
     create_async_engine,
 )
 from fastapi import Depends
-from calice.models.orm.base import Base
+from calice.models.orm import Base
 from calice.settings import settings
 
 async def get_db():
@@ -25,4 +25,5 @@ async def get_db():
         finally:
             await session.close()
 
-DatabaseDep = Annotated[AsyncSession, Depends(get_db)]
+
+DatabaseSession = Annotated[AsyncSession, Depends(get_db)]

@@ -1,16 +1,18 @@
 from pydantic import BaseModel
 from sqlalchemy import select
-from calice.dependencies.database import DatabaseDep
-from calice.models.orm.base import Base
+from calice.dependencies import DatabaseSession
+from calice.models.orm import Base
+
 
 class NotFoundException(Exception):
     pass
+
 
 def RepositoryFactory(model: Base):
     class BaseRepository:
         LIMIT = 100
 
-        def __init__(self, session: DatabaseDep):
+        def __init__(self, session: DatabaseSession):
             BaseRepository.session = session
             BaseRepository.model = model
 
@@ -38,18 +40,20 @@ def RepositoryFactory(model: Base):
             res = await self.session.execute(q)
 
             return res.unique().scalar_one_or_none()
-        
+
         @classmethod
         async def update(cls, data: BaseModel):
             db_model = await cls.find_one(id=data.id)
 
             if not db_model:
-                raise NotFoundException(f"{model.__tablename__} did not contain row with id {data.id}")
-            
+                raise NotFoundException(
+                    f"{model.__tablename__} did not contain row with id {data.id}"
+                )
+
             values = data.model_dump(exclude_unset=True)
             for attr, value in values.items():
                 setattr(db_model, attr, value)
-            
+
             await cls.session.commit()
             await cls.session.refresh(db_model)
 
