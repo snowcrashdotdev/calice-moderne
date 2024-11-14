@@ -1,4 +1,4 @@
-import { request } from "@/app/lib/sdk"
+import request from "@/app/lib/sdk"
 
 export default async function TournamentDetails({
     params

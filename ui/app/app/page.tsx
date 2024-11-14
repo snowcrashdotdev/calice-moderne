@@ -1,4 +1,4 @@
-import { request } from "@/app/lib/sdk"
+import request from "@/app/lib/sdk"
 import { TournamentList } from "@/app/components/tournament/tournament-list"
 
 export default async function Home() {

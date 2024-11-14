@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache"
 import { TournamentFormSchema } from "@/app/lib/validation"
-import { request } from "@/app/lib/sdk"
+import request from "@/app/lib/sdk"
 import { redirect } from "next/navigation"
 
 type TournamentFormValues = {

@@ -1,6 +1,6 @@
 "use server";
 import { redirect } from "next/navigation";
-import { request } from "@/app/lib/sdk";
+import request from "@/app/lib/sdk";
 import { SignupFormSchema } from "@/app/lib/validation";
 import { createSession, deleteSession } from "@/app/lib/session";
 import { env } from "@/app/lib/env.mjs"
