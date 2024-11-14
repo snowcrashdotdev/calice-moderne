@@ -3,19 +3,32 @@ from sqlalchemy import select
 from calice.dependencies.database import DatabaseDep
 from calice.models.orm.base import Base
 
+
 def RepositoryFactory(model: Base):
     class BaseRepository:
-        def __init__(self, session: DatabaseDep):
-            self.session = session
+        LIMIT = 100
 
-        async def create(self, data: BaseModel):
+        def __init__(self, session: DatabaseDep):
+            BaseRepository.session = session
+            BaseRepository.model = model
+
+        @classmethod
+        async def create(cls, data: BaseModel):
             db_model = model(**data.model_dump())
-            self.session.add(db_model)
-            await self.session.commit()
-            await self.session.refresh(db_model)
+            cls.session.add(db_model)
+            await cls.session.commit()
+            await cls.session.refresh(db_model)
 
             return db_model
-        
+
+        @classmethod
+        async def find(cls, offset=0):
+            q = select(model).limit(cls.LIMIT).offset(offset)
+            res = await cls.session.scalars(q)
+
+            return res.all()
+
+        @classmethod
         async def find_one(self, *args, **kwargs):
             attr, value = next(iter(kwargs.items()), None)
 
@@ -24,6 +37,4 @@ def RepositoryFactory(model: Base):
 
             return res.unique().scalar_one_or_none()
 
-    BaseRepository.model = model
-    
     return BaseRepository

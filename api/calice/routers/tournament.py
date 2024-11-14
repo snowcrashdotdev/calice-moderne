@@ -10,9 +10,10 @@ router = APIRouter(prefix="/tournaments")
 
 
 @router.get("/", response_model=List[TournamentRead])
-async def index_tournaments(database: DatabaseDep):
-    tournaments = await database.scalars(select(Tournament))
-    return tournaments.all()
+async def index_tournaments(tournament_repository: TournamentRepository):
+    tournaments = await tournament_repository.find()
+
+    return tournaments
 
 
 @router.get("/{slug}", response_model=TournamentRead)
