@@ -1,8 +1,5 @@
 from typing import List
 from fastapi import APIRouter
-from sqlalchemy import select
-from calice.dependencies.database import DatabaseDep
-from calice.models.orm.tournament import Tournament
 from calice.repositories import TournamentRepository
 from calice.models.validation.tournament import TournamentCreate, TournamentRead
 
