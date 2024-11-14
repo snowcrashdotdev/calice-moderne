@@ -1,6 +1,6 @@
-import { type components, RoleEnum } from "./calice"
+import { type components, UserRole } from "./calice"
 
 export type Tournament = components["schemas"]["TournamentRead"]
 export type User = components["schemas"]["UserRead"]
 
-export { RoleEnum as UserRole }
+export { UserRole }

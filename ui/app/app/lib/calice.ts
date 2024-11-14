@@ -118,11 +118,6 @@ export interface components {
             /** Detail */
             detail?: components["schemas"]["ValidationError"][];
         };
-        /**
-         * RoleEnum
-         * @enum {string}
-         */
-        RoleEnum: RoleEnum;
         /** Token */
         Token: {
             /** Accesstoken */
@@ -178,7 +173,7 @@ export interface components {
              */
             id: string;
             /** Role */
-            role?: components["schemas"]["RoleEnum"][];
+            role?: components["schemas"]["UserRole"][];
         };
         /** UserRead */
         UserRead: {
@@ -195,8 +190,13 @@ export interface components {
              *       "USER"
              *     ]
              */
-            role: components["schemas"]["RoleEnum"][];
+            role: components["schemas"]["UserRole"][];
         };
+        /**
+         * UserRole
+         * @enum {string}
+         */
+        UserRole: UserRole;
         /** ValidationError */
         ValidationError: {
             /** Location */
@@ -419,7 +419,7 @@ export interface operations {
         };
     };
 }
-export enum RoleEnum {
+export enum UserRole {
     USER = "USER",
     ADMIN = "ADMIN"
 }
