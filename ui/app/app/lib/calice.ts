@@ -73,6 +73,24 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/users/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Index Users */
+        get: operations["index_users_users__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Patch User */
+        patch: operations["patch_user_users__patch"];
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -100,6 +118,11 @@ export interface components {
             /** Detail */
             detail?: components["schemas"]["ValidationError"][];
         };
+        /**
+         * RoleEnum
+         * @enum {string}
+         */
+        RoleEnum: RoleEnum;
         /** Token */
         Token: {
             /** Accesstoken */
@@ -147,10 +170,32 @@ export interface components {
             /** Password */
             password: string;
         };
+        /** UserPatch */
+        UserPatch: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Role */
+            role?: components["schemas"]["RoleEnum"][];
+        };
         /** UserRead */
         UserRead: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
             /** Username */
             username: string;
+            /**
+             * Role
+             * @default [
+             *       "USER"
+             *     ]
+             */
+            role: components["schemas"]["RoleEnum"][];
         };
         /** ValidationError */
         ValidationError: {
@@ -320,4 +365,61 @@ export interface operations {
             };
         };
     };
+    index_users_users__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UserRead"][];
+                };
+            };
+        };
+    };
+    patch_user_users__patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UserPatch"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UserRead"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+}
+export enum RoleEnum {
+    USER = "USER",
+    ADMIN = "ADMIN"
 }
