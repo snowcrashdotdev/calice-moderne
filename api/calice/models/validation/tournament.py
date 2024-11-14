@@ -1,15 +1,15 @@
 from typing_extensions import Self
 from uuid import UUID
 from datetime import datetime
-from pydantic import model_validator
+from pydantic import Field, model_validator
 from calice.models.validation.base import Base
 from calice.utils import slugify
 
 
 class TournamentCreate(Base):
-    title: str
-    description: str
-    slug: str = None
+    title: str = Field(max_length=64)
+    description: str = Field(max_length=512)
+    slug: str = Field(default=None, max_length=64)
     start_time: datetime
     end_time: datetime
 

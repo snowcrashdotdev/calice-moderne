@@ -3,7 +3,7 @@ from calice.models.validation.base import Base
 
 
 class UserCreate(Base):
-    username: str
+    username: str = Field(min_length=2)
     password: str = Field(min_length=8, max_length=64)
 
 
