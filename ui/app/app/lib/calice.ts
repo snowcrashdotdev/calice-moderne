@@ -157,6 +157,16 @@ export interface components {
             description: string;
             /** Slug */
             slug: string;
+            /**
+             * Starttime
+             * Format: date-time
+             */
+            startTime: string;
+            /**
+             * Endtime
+             * Format: date-time
+             */
+            endTime: string;
         };
         /** UserCreate */
         UserCreate: {

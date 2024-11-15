@@ -30,3 +30,5 @@ class TournamentRead(Base):
     title: str
     description: str
     slug: str
+    start_time: datetime
+    end_time: datetime
