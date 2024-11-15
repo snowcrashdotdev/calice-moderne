@@ -23,7 +23,7 @@ export function Field({ children, label, htmlFor, error }: FieldProps) {
 
     return (
         <div className="flex flex-col gap-y-2 w-64">
-            <label htmlFor={id}>{label}</label>
+            <label className="font-semibold" htmlFor={id}>{label}</label>
             {children}
 
             {error && (

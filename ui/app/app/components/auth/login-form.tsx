@@ -1,27 +1,29 @@
 "use client";
 
 import { useActionState } from 'react';
+import Link from 'next/link';
 import { login } from "@/app/actions/auth";
-import { Field } from "@/app/components/form/field";
-import { Submit } from "@/app/components/form/submit";
+import { Form, Field, Input, Submit } from "@/app/components/form";
 
 export function LoginForm() {
     const [state, action] = useActionState(login, undefined)
 
     return (
-        <form action={action} className="flex flex-col gap-y-6 justify-items-start items-start">
+        <Form action={action}>
             {state?.message && (
                 <div role="alert">{state.message}</div>
             )}
             <Field label="Username">
-                <input id="username" name="username" type="text" defaultValue={state?.values.username}></input>
+                <Input id="username" name="username" type="text" defaultValue={state?.values.username} />
             </Field>
 
             <Field label="Password">
-                <input id="password" name="password" type="password"></input>
+                <Input id="password" name="password" type="password" />
             </Field>
 
             <Submit label="Sign In" />
-        </form>
+
+            <p>New user? <Link className="text-blue-700 underline" href="/signup">Sign Up</Link></p>
+        </Form>
     )
 }

@@ -2,8 +2,7 @@
 
 import { useActionState, useState } from 'react';
 import { create } from "@/app/actions/tournament"
-import { Field } from "@/app/components/form/field";
-import { Submit } from "@/app/components/form/submit";
+import { Form, Field, Input, Submit } from "@/app/components/form";
 import Editor from "@/app/components/form/editor";
 
 
@@ -12,17 +11,17 @@ export function TournamentForm() {
     const [markdown, setMarkdown] = useState("")
 
     return (
-        <form action={action} className="flex flex-col gap-y-5 items-start justify-start">
+        <Form action={action} className="flex flex-col gap-y-5 items-start justify-start">
             <Field label="Title" error={state?.errors?.title}>
-                <input id="title" name="title" type="text" defaultValue={state?.values?.title}></input>
+                <Input id="title" name="title" type="text" defaultValue={state?.values?.title} />
             </Field>
 
             <Field label="Start Time" error={state?.errors?.startTime}>
-                <input id="startTime" name="startTime" type="datetime-local" defaultValue={state?.values?.startTime}></input>
+                <Input id="startTime" name="startTime" type="datetime-local" defaultValue={state?.values?.startTime} />
             </Field>
 
             <Field label="End Time" error={state?.errors?.endTime}>
-                <input id="endTime" name="endTime" type="datetime-local" defaultValue={state?.values?.endTime}></input>
+                <Input id="endTime" name="endTime" type="datetime-local" defaultValue={state?.values?.endTime} />
             </Field>
 
             <Field label="Description" htmlFor="description" error={state?.errors?.description}>
@@ -31,6 +30,6 @@ export function TournamentForm() {
             </Field>
 
             <Submit label="Create Tournament" />
-        </form>
+        </Form>
     )
 }

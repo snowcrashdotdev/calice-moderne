@@ -2,30 +2,29 @@
 
 import { useActionState } from 'react';
 import { signup } from "@/app/actions/auth";
-import { Field } from "@/app/components/form/field";
-import { Submit } from "@/app/components/form/submit";
+import { Form, Field, Input, Submit } from "@/app/components/form";
 
 export function SignupForm() {
     const [state, action] = useActionState(signup, undefined)
 
     return (
-        <form action={action} className="flex flex-col gap-y-6 justify-items-start items-start">
+        <Form action={action}>
             {state?.message && (
                 <div role="alert">{state.message}</div>
             )}
             <Field label="Username" error={state?.errors?.username}>
-                <input id="username" name="username" type="text" defaultValue={state?.values.username}></input>
+                <Input id="username" name="username" type="text" defaultValue={state?.values.username} />
             </Field>
 
             <Field label="Password" error={state?.errors?.password}>
-                <input id="password" name="password" type="password"></input>
+                <Input id="password" name="password" type="password" />
             </Field>
 
             <Field label="Confirm Password" error={state?.errors?.confirmPassword}>
-                <input id="confirmPassword" name="confirmPassword" type="password"></input>
+                <Input id="confirmPassword" name="confirmPassword" type="password" />
             </Field>
 
             <Submit label="Sign Up" />
-        </form>
+        </Form>
     )
 }
