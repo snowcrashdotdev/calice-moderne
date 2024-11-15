@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
-import { verifySession } from "@/app/lib/session";
-import { Logout } from "@/app/components/auth/logout";
+import { AppFooter, AppHeader } from "@/app/components/app";
 import "./globals.css";
-import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Calice Cup",
@@ -14,21 +12,14 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await verifySession()
-
   return (
     <html lang="en">
-      <body className="flex flex-col min-h-screen p-6">
-        <header className="flex justify-end px-5 py-2 gap-x-5">
-          {session.isAuth ? (
-            <>
-              <p>Welcome, {session.user}</p>
-              <Logout />
-            </>
-          ) : <Link href="/login">Login</Link>}
-        </header>
+      <body className="flex flex-col min-h-screen">
+        <AppHeader />
 
         {children}
+
+        <AppFooter />
       </body>
     </html>
   );
