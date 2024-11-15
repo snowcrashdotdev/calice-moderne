@@ -13,7 +13,7 @@ export function SignupForm() {
                 <div role="alert">{state.message}</div>
             )}
             <Field label="Username" error={state?.errors?.username}>
-                <Input id="username" name="username" type="text" defaultValue={state?.values.username} />
+                <Input id="username" name="username" type="text" defaultValue={state?.values.username} autoComplete="off" />
             </Field>
 
             <Field label="Password" error={state?.errors?.password}>
