@@ -1,7 +1,8 @@
-export  function NoTournaments() {
+export function NoTournaments() {
     return (
-        <div>
-            <h1>No tournaments found.</h1>
+        <div className="m-auto text-center">
+            <p className="text-6xl mb-4">🙅‍♂️🎮</p>
+            <p className="font-bold text-2xl">No tournaments found.</p>
         </div>
     )
 }

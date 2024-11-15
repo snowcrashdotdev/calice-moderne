@@ -1,4 +1,5 @@
 import request from "@/app/lib/sdk"
+import { Main } from "@/app/components/layout"
 
 export default async function TournamentDetails({
     params
@@ -13,8 +14,8 @@ export default async function TournamentDetails({
     }
 
     return (
-        <main className="flex-1 flex flex-col">
-            <h1>{tournament.title}</h1>
-        </main>
+        <Main>
+            <h1 className="text-2xl font-bold">{tournament.title}</h1>
+        </Main>
     )
 }
