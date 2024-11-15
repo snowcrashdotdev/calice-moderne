@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from sqlalchemy import select
+from sqlalchemy import select, desc
 from calice.dependencies import DatabaseSession
 from calice.models.orm import Base
 
@@ -8,13 +8,14 @@ class NotFoundException(Exception):
     pass
 
 
-def RepositoryFactory(model: Base):
+def RepositoryFactory(model: Base, order_by=None):
     class BaseRepository:
         LIMIT = 100
 
         def __init__(self, session: DatabaseSession):
             BaseRepository.session = session
             BaseRepository.model = model
+            BaseRepository.order_by = order_by
 
         @classmethod
         async def create(cls, data: BaseModel):
@@ -27,7 +28,7 @@ def RepositoryFactory(model: Base):
 
         @classmethod
         async def find(cls, offset=0):
-            q = select(model).limit(cls.LIMIT).offset(offset)
+            q = select(model).order_by(cls.order_by).limit(cls.LIMIT).offset(offset)
             res = await cls.session.scalars(q)
 
             return res.all()
