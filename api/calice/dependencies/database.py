@@ -11,7 +11,7 @@ from calice.settings import settings
 
 async def get_db():
     engine = create_async_engine(settings.database_url)
-    factory = async_sessionmaker(engine)
+    factory = async_sessionmaker(engine, expire_on_commit=False)
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
 
