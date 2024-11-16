@@ -11,7 +11,7 @@ from fastapi.security import (
     SecurityScopes,
 )
 from calice.models.orm import User
-from calice.models.validation.security import ReadToken, TokenData
+from calice.models.validation.security import TokenData
 from calice.settings import settings
 from calice.repositories import UserRepository
 
@@ -40,7 +40,7 @@ CAPABILITIES: Dict[UserRole, OAuth2Scope] = {
     UserRole.admin: [OAuth2Scope.manage_tournament, OAuth2Scope.manage_user],
 }
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token", scopes=OAUTH2_SCOPES)
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="oauth/token", scopes=OAUTH2_SCOPES)
 
 ph = PasswordHasher()
 
