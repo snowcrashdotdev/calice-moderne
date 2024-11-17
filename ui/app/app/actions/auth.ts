@@ -1,8 +1,7 @@
 "use server";
-import { z } from "zod";
 import { redirect } from "next/navigation";
 import request, { multipartSerializer } from "@/app/lib/sdk";
-import { LoginFormSchema, SignupFormSchema, type InferredErrors } from "@/app/lib/validation";
+import { LoginFormSchema, SignupFormSchema, type InferredFormState } from "@/app/lib/validation";
 import { createSession, deleteSession } from "@/app/lib/session";
 
 type SignupFormValues = {
@@ -48,11 +47,7 @@ export async function signup(_state: SignupFormState, formData: FormData) {
     }
 }
 
-type LoginFormState = {
-    values?: { username?: string; }
-    errors?: InferredErrors<z.infer<typeof LoginFormSchema>>
-    message?: string
-} | undefined
+type LoginFormState = InferredFormState<typeof LoginFormSchema>
 
 export async function login(_state: LoginFormState, formData: FormData): Promise<LoginFormState> {
     const { data, error } = LoginFormSchema.safeParse(
