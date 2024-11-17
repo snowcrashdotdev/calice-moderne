@@ -1,8 +1,6 @@
-from typing_extensions import Self
 from datetime import datetime
-from pydantic import Field, model_validator
+from pydantic import Field, field_validator, ValidationInfo
 from calice.models.validation.base import CreateResource, ReadResource
-from calice.utils import slugify
 
 
 class TournamentCreate(CreateResource):
@@ -10,16 +8,13 @@ class TournamentCreate(CreateResource):
     start_time: datetime
     end_time: datetime
 
-    @model_validator(mode="after")
-    def auto_slug(self) -> Self:
-        self.slug = self.slug if self.slug is not None else slugify(self.title)
-        return self
-
-    @model_validator(mode="after")
-    def ends_after_start(self) -> Self:
-        if self.end_time < self.start_time:
+    @field_validator("end_time")
+    @classmethod
+    def ends_after_start(cls, v: datetime, info: ValidationInfo) -> datetime:
+        if v < info.data.get("start_time"):
             raise ValueError("Start time must precede end time.")
-        return self
+
+        return v
 
 
 class TournamentRead(ReadResource):
