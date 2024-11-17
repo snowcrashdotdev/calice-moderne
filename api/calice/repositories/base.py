@@ -1,14 +1,20 @@
+from typing import List, Type, TypeVar, Union
 from pydantic import BaseModel
 from sqlalchemy import select
+from sqlalchemy import UnaryExpression
 from calice.dependencies import DatabaseSession
-from calice.models.orm import Base
+from calice.models.orm import Base as ORMModel
+
+Model = TypeVar("Model", bound=ORMModel)
+ModelClass = Type[Model]
+DataModel = TypeVar("DataModel", bound=BaseModel)
 
 
 class NotFoundException(Exception):
     pass
 
 
-def RepositoryFactory(model: Base, order_by=None):
+def RepositoryFactory(model: ModelClass, order_by: UnaryExpression = None):
     class BaseRepository:
         LIMIT = 100
 
@@ -18,8 +24,8 @@ def RepositoryFactory(model: Base, order_by=None):
             BaseRepository.order_by = order_by
 
         @classmethod
-        async def create(cls, data: BaseModel):
-            db_model = model(**data.model_dump())
+        async def create(cls, data: DataModel) -> Model:
+            db_model: Model = model(**data.model_dump())
             cls.session.add(db_model)
             await cls.session.commit()
             await cls.session.refresh(db_model)
@@ -27,14 +33,14 @@ def RepositoryFactory(model: Base, order_by=None):
             return db_model
 
         @classmethod
-        async def find(cls, offset=0):
+        async def find(cls, offset=0) -> List[Model]:
             q = select(model).order_by(cls.order_by).limit(cls.LIMIT).offset(offset)
             res = await cls.session.scalars(q)
 
             return res.all()
 
         @classmethod
-        async def find_one(self, *args, **kwargs):
+        async def find_one(self, *args, **kwargs) -> Union[Model, None]:
             attr, value = next(iter(kwargs.items()), None)
 
             q = select(model).where(getattr(model, attr) == value)
@@ -43,7 +49,7 @@ def RepositoryFactory(model: Base, order_by=None):
             return res.unique().scalar_one_or_none()
 
         @classmethod
-        async def update(cls, data: BaseModel = None, instance: Base = None):
+        async def update(cls, data: DataModel = None, instance: Model = None) -> Model:
             db_model = instance if instance else await cls.find_one(id=data.id)
 
             if not db_model:
