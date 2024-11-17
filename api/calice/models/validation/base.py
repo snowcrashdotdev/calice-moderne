@@ -1,13 +1,7 @@
 from datetime import datetime
+from typing import Annotated, Self
 from uuid import UUID
-from pydantic import (
-    AliasGenerator,
-    BaseModel,
-    ConfigDict,
-    Field,
-    field_validator,
-    ValidationInfo,
-)
+from pydantic import AliasGenerator, BaseModel, ConfigDict, Field, model_validator
 from pydantic.alias_generators import to_camel
 from calice.utils import slugify
 
@@ -29,18 +23,14 @@ class ReadResource(Base):
 
 
 class CreateResource(Base):
-    title: str = Field(max_length=64)
-    slug: str = Field(default="", max_length=64, validate_default=True)
+    title: Annotated[str, Field(max_length=64)]
+    slug: Annotated[str, Field(max_length=64)] = None
 
-    @field_validator("slug")
-    @classmethod
-    def auto_slug(cls, v: str, info: ValidationInfo) -> str:
-        slug = v if v else slugify(info.data.get("title"))
+    @model_validator(mode="after")
+    def auto_slug(self) -> Self:
+        self.slug = self.slug if self.slug else slugify(self.title)
 
-        if not slug:
-            raise ValueError("Slug is a required field")
-
-        return slug
+        return self
 
 
 class UpdateResource(Base):
