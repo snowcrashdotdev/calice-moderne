@@ -1,5 +1,6 @@
 import request from "@/app/lib/sdk";
 import { ManageUser } from "@/app/components/user/user-manage"
+import { Main } from "@/app/components/layout";
 
 export default async function UserManagement() {
     const { data: users, error } = await request.GET("/users/")
@@ -9,7 +10,7 @@ export default async function UserManagement() {
     }
 
     return (
-        <main className="flex-1">
+        <Main>
             <table className="table-auto">
                 <thead>
                     <tr>
@@ -21,6 +22,6 @@ export default async function UserManagement() {
                     {users.map(u => <ManageUser key={u.id} {...u} />)}
                 </tbody>
             </table>
-        </main>
+        </Main>
     )
 }

@@ -1,9 +1,10 @@
-import { SignupForm } from "@/app/components/auth/signup-form";
+import { SignupForm } from "@/app/components/auth";
+import { Main } from "@/app/components/layout";
 
 export default function Signup() {
     return (
-        <main className="flex-1 flex flex-col items-center justify-center">
+        <Main className="justify-center items-center">
             <SignupForm />
-        </main>
+        </Main>
     )
 }

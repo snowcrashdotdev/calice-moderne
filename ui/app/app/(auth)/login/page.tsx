@@ -1,9 +1,10 @@
-import { LoginForm } from "@/app/components/auth/login-form";
+import { LoginForm } from "@/app/components/auth";
+import { Main } from "@/app/components/layout";
 
 export default function Login() {
     return (
-        <main className="flex-1 flex flex-col items-center justify-center">
+        <Main className="justify-center items-center">
             <LoginForm />
-        </main>
+        </Main>
     )
 }
