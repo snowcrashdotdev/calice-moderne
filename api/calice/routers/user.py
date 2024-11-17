@@ -1,14 +1,14 @@
 from typing import List
 from fastapi import APIRouter
 from calice.dependencies.security import can_manage_user, hash_password
-from calice.repositories import UserRepository
+from calice.repositories import user
 from calice.models.validation.user import UserCreate, UserNew, UserRead, UserPatch
 
 router = APIRouter(prefix="/users")
 
 
 @router.get("/", response_model=List[UserRead])
-async def index_users(user_repository: UserRepository):
+async def index_users(user_repository: user.repository):
     users = await user_repository.find()
 
     return users
@@ -17,7 +17,7 @@ async def index_users(user_repository: UserRepository):
 @router.post("/", response_model=UserRead)
 async def signup(
     user: UserCreate,
-    user_repository: UserRepository,
+    user_repository: user.repository,
 ):
     hashed_password = hash_password(user.password)
 
@@ -29,7 +29,7 @@ async def signup(
 
 
 @router.patch("/", response_model=UserRead, dependencies=[can_manage_user])
-async def patch_user(patch: UserPatch, user_repository: UserRepository):
+async def patch_user(patch: UserPatch, user_repository: user.repository):
     user = await user_repository.update(patch)
 
     return user

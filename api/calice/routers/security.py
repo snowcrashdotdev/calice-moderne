@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from calice.dependencies import AuthenticatedUserCredentials
+from calice.dependencies.security import AuthenticatedUserCredentials
 from calice.models.validation.security import AuthResponse
 
 router = APIRouter(prefix="/oauth")

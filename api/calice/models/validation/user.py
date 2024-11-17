@@ -2,7 +2,7 @@ from typing import List
 from uuid import UUID
 from pydantic import Field
 from calice.models.validation.base import Base
-from calice.dependencies import UserRole
+from calice.dependencies.security import UserRole
 
 
 class UserCreate(Base):

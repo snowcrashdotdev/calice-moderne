@@ -1,10 +1,12 @@
 from datetime import datetime, timezone
-from calice.repositories.base import RepositoryFactory
-from calice.models.orm import User
+from typing import Annotated
+from fastapi import Depends
+from calice.repositories import base
+from calice.models.orm.user import User
 from calice.models.orm.session import Session
 
 
-class SessionRepository(RepositoryFactory(Session)):
+class SessionRepository(base.RepositoryFactory(Session)):
     @classmethod
     async def revoke_for_user(cls, user: User):
         await cls.session.run_sync(
@@ -13,3 +15,6 @@ class SessionRepository(RepositoryFactory(Session)):
             .update({"revoked": datetime.now(timezone.utc)})
         )
         await cls.session.commit()
+
+
+repository = Annotated[SessionRepository, Depends(SessionRepository)]

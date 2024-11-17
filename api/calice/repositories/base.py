@@ -1,13 +1,13 @@
 from typing import List, Type, TypeVar, Union
-from pydantic import BaseModel
 from sqlalchemy import select
 from sqlalchemy import UnaryExpression
-from calice.dependencies import DatabaseSession
-from calice.models.orm import Base as ORMModel
+from calice.dependencies.database import DatabaseSession
+from calice.models.validation.base import Base as BaseDataModel
+from calice.models.orm.base import Base as BaseORMModel
 
-Model = TypeVar("Model", bound=ORMModel)
+Model = TypeVar("Model", bound=BaseORMModel)
 ModelClass = Type[Model]
-DataModel = TypeVar("DataModel", bound=BaseModel)
+DataModel = TypeVar("DataModel", bound=BaseDataModel)
 
 
 class NotFoundException(Exception):

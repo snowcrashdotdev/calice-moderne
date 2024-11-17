@@ -10,7 +10,7 @@ from fastapi.security import (
     OAuth2PasswordRequestFormStrict,
     SecurityScopes,
 )
-from calice.models.orm import User
+from calice.models.orm.user import User
 from calice.models.validation.security import (
     AuthResponse,
     CreateSession,
@@ -19,7 +19,7 @@ from calice.models.validation.security import (
     UserRole,
 )
 from calice.settings import settings
-from calice.repositories import SessionRepository, UserRepository, NotFoundException
+from calice.repositories import session, user
 
 APP_SECRET = settings.app_secret
 JWT_ALGORITHM = "HS256"
@@ -162,8 +162,8 @@ def create_access_token(user: User, expires: datetime):
 
 async def authenticate_user(
     form_data: Annotated[OAuth2PasswordWithRefresh, Depends()],
-    user_repository: UserRepository,
-    session_repository: SessionRepository,
+    user_repository: user.repository,
+    session_repository: session.repository,
 ):
 
     new_session = None
@@ -194,7 +194,7 @@ async def authenticate_user(
         """
         Rotate refresh tokens.
         """
-        new_session = await SessionRepository.create(
+        new_session = await session_repository.create(
             CreateSession(
                 token=token_urlsafe(REFRESH_TOKEN_BYTES),
                 user_id=session.user_id,
@@ -204,7 +204,7 @@ async def authenticate_user(
         )
 
         session.replaced_by = new_session.token
-        await SessionRepository.update(instance=session)
+        await session_repository.update(instance=session)
         user = await user_repository.find_one(id=new_session.user_id)
 
     elif form_data.grant_type == "password":
@@ -313,14 +313,14 @@ JSONWebToken = Annotated[BearerToken, Depends(validate_token)]
 
 async def current_user(
     token: JSONWebToken,
-    user_repository: UserRepository,
+    user_repository: user.repository,
     auth_exceptions: WithAuthExceptions,
 ):
     (credentials_exception) = auth_exceptions
 
-    try:
-        user = await user_repository.find_one(id=token.sub)
-    except NotFoundException:
+    user = await user_repository.find_one(id=token.sub)
+
+    if user is None:
         raise credentials_exception
 
     return user
