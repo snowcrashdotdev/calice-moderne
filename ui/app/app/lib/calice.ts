@@ -4,7 +4,7 @@
  */
 
 export interface paths {
-    "/token": {
+    "/oauth/token": {
         parameters: {
             query?: never;
             header?: never;
@@ -14,24 +14,7 @@ export interface paths {
         get?: never;
         put?: never;
         /** Request Access Token */
-        post: operations["request_access_token_token_post"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/signup": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /** Signup */
-        post: operations["signup_signup_post"];
+        post: operations["request_access_token_oauth_token_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -83,7 +66,8 @@ export interface paths {
         /** Index Users */
         get: operations["index_users_users__get"];
         put?: never;
-        post?: never;
+        /** Signup */
+        post: operations["signup_users__post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -95,14 +79,38 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
-        /** Body_request_access_token_token_post */
-        Body_request_access_token_token_post: {
+        /** AuthResponse */
+        AuthResponse: {
+            /** Access Token */
+            access_token: string;
+            /** Refresh Token */
+            refresh_token: string;
+            /**
+             * Token Type
+             * @default Bearer
+             */
+            token_type: string;
+            /**
+             * Expires
+             * Format: date-time
+             */
+            expires: string;
+            /**
+             * Refresh Token Expires
+             * Format: date-time
+             */
+            refresh_token_expires: string;
+        };
+        /** Body_request_access_token_oauth_token_post */
+        Body_request_access_token_oauth_token_post: {
             /** Grant Type */
-            grant_type?: string | null;
+            grant_type: string;
             /** Username */
-            username: string;
+            username?: string | null;
             /** Password */
-            password: string;
+            password?: string | null;
+            /** Refresh Token */
+            refresh_token?: string | null;
             /**
              * Scope
              * @default
@@ -117,13 +125,6 @@ export interface components {
         HTTPValidationError: {
             /** Detail */
             detail?: components["schemas"]["ValidationError"][];
-        };
-        /** Token */
-        Token: {
-            /** Accesstoken */
-            accessToken: string;
-            /** Tokentype */
-            tokenType: string;
         };
         /** TournamentCreate */
         TournamentCreate: {
@@ -225,7 +226,7 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
-    request_access_token_token_post: {
+    request_access_token_oauth_token_post: {
         parameters: {
             query?: never;
             header?: never;
@@ -234,7 +235,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/x-www-form-urlencoded": components["schemas"]["Body_request_access_token_token_post"];
+                "application/x-www-form-urlencoded": components["schemas"]["Body_request_access_token_oauth_token_post"];
             };
         };
         responses: {
@@ -244,40 +245,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["Token"];
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
-    };
-    signup_signup_post: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UserCreate"];
-            };
-        };
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["UserRead"];
+                    "application/json": components["schemas"]["AuthResponse"];
                 };
             };
             /** @description Validation Error */
@@ -391,6 +359,39 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["UserRead"][];
+                };
+            };
+        };
+    };
+    signup_users__post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UserCreate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UserRead"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
                 };
             };
         };

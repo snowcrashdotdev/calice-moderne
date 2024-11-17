@@ -1,67 +1,94 @@
 import "server-only"
 import { cookies } from 'next/headers'
 import { cache } from "react"
+import request, { multipartSerializer } from "@/app/lib/sdk"
+import type { AuthResponse, AccessToken } from "./calice.types"
 
-const DEFAULT_EXP = () => new Date(Date.now() + 15 * 60 * 100)
+export const ACCESS_COOKIE = "auth"
 export const SESSION_COOKIE = "session"
 
-type TokenData = {
-    sub: string
-    exp: number
-}
-
-export async function decrypt(token: string = "") {
+export async function decrypt(token: string = ""): Promise<AccessToken> {
     const [_header, claims, ..._rest] = token.split(".")
 
-    return JSON.parse(Buffer.from(claims, "base64url").toString()) as TokenData
+    return JSON.parse(Buffer.from(claims, "base64url").toString()) as AccessToken
 }
 
-export async function createSession(token: string = "") {
-    const { exp } = await decrypt(token)
+export async function createSession(credentials: AuthResponse): Promise<string> {
+    const { access_token, refresh_token, expires, refresh_token_expires } = credentials
     const cookieStore = await cookies()
-
-    const expires = exp ? new Date(exp * 1000) : DEFAULT_EXP()
 
     cookieStore.set(
         SESSION_COOKIE,
-        token,
+        refresh_token,
         {
-            expires,
+            expires: new Date(refresh_token_expires),
             httpOnly: true,
             secure: true,
             sameSite: "lax",
             path: "/"
         }
     )
+
+    cookieStore.set(
+        ACCESS_COOKIE,
+        access_token,
+        {
+            expires: new Date(expires),
+            httpOnly: true,
+            secure: true,
+            sameSite: "lax",
+            path: "/"
+        }
+    )
+
+    return access_token
 }
 
 export async function deleteSession() {
     const cookieStore = await cookies()
+    cookieStore.delete(ACCESS_COOKIE)
     cookieStore.delete(SESSION_COOKIE)
 }
 
-type Session = {
-    isAuth: boolean
-    user?: string
+async function useRefreshToken(token: string): Promise<AccessToken | undefined> {
+    const { data, error } = await request.POST("/oauth/token", {
+        body: {
+            grant_type: "refresh_token",
+            refresh_token: token,
+            scope: ""
+        },
+        bodySerializer: multipartSerializer
+    })
+
+    if (error) {
+        deleteSession()
+        return undefined
+    } else {
+        createSession(data)
+        const accessToken = await decrypt(data.access_token)
+
+        return accessToken
+    }
 }
 
-export const getAccessToken = cache(async (): Promise<string | undefined> => {
-    return (await cookies()).get('session')?.value
-})
+export async function getAccessToken(): Promise<string | undefined> {
+    return (await cookies()).get(ACCESS_COOKIE)?.value
+}
 
-export const verifySession = cache(async (): Promise<Session> => {
-    const notAuthenticated = { isAuth: false }
-    const cookie = await getAccessToken()
+export const getSession = cache(async (): Promise<AccessToken | undefined> => {
+    const cookieStore = await cookies()
+    const accessTokenCookie = cookieStore.get(ACCESS_COOKIE)
+    const refreshTokenCookie = cookieStore.get(SESSION_COOKIE)
 
-    if (!cookie) {
-        return notAuthenticated
+    if (accessTokenCookie) {
+        const claims = await decrypt(accessTokenCookie.value)
+
+        return claims
+    } else if (refreshTokenCookie) {
+        const claims = await useRefreshToken(refreshTokenCookie.value)
+
+        return claims
     }
 
-    const session = await decrypt(cookie)
-
-    if (!session?.sub) {
-        return notAuthenticated
-    }
-
-    return { isAuth: true, user: session.sub }
+    return undefined
 })

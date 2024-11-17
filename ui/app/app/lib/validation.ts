@@ -1,5 +1,16 @@
 import { z } from "zod"
 
+export type InferredErrors<T extends object> = {
+    [K in keyof T]?: string[];
+}
+
+export const LoginFormSchema = z.object({
+    username: z.string(),
+    password: z.string(),
+    scope: z.string(),
+    grant_type: z.literal("password")
+})
+
 export const SignupFormSchema = z.object({
     username: z
         .string()

@@ -1,9 +1,9 @@
 "use server";
+import { z } from "zod";
 import { redirect } from "next/navigation";
-import request from "@/app/lib/sdk";
-import { SignupFormSchema } from "@/app/lib/validation";
-import { createSession, deleteSession } from "@/app/lib/session";
-import { env } from "@/app/lib/env.mjs"
+import request, { multipartSerializer } from "@/app/lib/sdk";
+import { LoginFormSchema, SignupFormSchema, type InferredErrors } from "@/app/lib/validation";
+import { createSession, deleteSession, getSession } from "@/app/lib/session";
 
 type SignupFormValues = {
     username: string,
@@ -34,7 +34,7 @@ export async function signup(_state: SignupFormState, formData: FormData) {
 
     const { username, password } = validatedSignupForm.data
 
-    const { error } = await request.POST("/signup", {
+    const { error } = await request.POST("/users/", {
         body: { username, password }
     })
 
@@ -49,30 +49,40 @@ export async function signup(_state: SignupFormState, formData: FormData) {
 }
 
 type LoginFormState = {
-    values?: {
-        username?: string
-        password?: string
-    },
+    values?: { username?: string; }
+    errors?: InferredErrors<z.infer<typeof LoginFormSchema>>
     message?: string
 } | undefined
 
-export async function login(_state: LoginFormState, formData: FormData) {
-    const res = await fetch(`${env.API_URL.replace(/\/$/, "")}/token`, {
-        method: "POST",
-        body: formData
+export async function login(_state: LoginFormState, formData: FormData): Promise<LoginFormState> {
+    const { data, error } = LoginFormSchema.safeParse(
+        {
+            ...Object.fromEntries(formData.entries()),
+            scope: "",
+            grant_type: "password"
+        }
+    )
+
+    if (error) {
+        return {
+            errors: error.flatten().fieldErrors,
+            values: {
+                username: formData.get("username") as string ?? undefined
+            }
+        }
+    }
+
+    const { data: credentials, error: serverError, response } = await request.POST("/oauth/token", {
+        body: data,
+        bodySerializer: multipartSerializer
     })
 
-    if (res.status >= 400) {
+    if (serverError) {
         return {
-            values: {
-                username: formData.get("username") as string ?? undefined,
-                password: formData.get("password") as string ?? undefined
-            },
-            message: "Server error."
+            message: "Login failed"
         }
     } else {
-        const { accessToken } = await res.json()
-        await createSession(accessToken)
+        await createSession(credentials)
         redirect("/")
     }
 }

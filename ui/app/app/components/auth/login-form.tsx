@@ -14,7 +14,7 @@ export function LoginForm() {
                 <div role="alert">{state.message}</div>
             )}
             <Field label="Username">
-                <Input id="username" name="username" type="text" defaultValue={state?.values.username} autoComplete="off" />
+                <Input id="username" name="username" type="text" defaultValue={state?.values?.username} autoComplete="off" />
             </Field>
 
             <Field label="Password">

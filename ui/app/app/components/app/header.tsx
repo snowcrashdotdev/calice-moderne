@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { verifySession } from "@/app/lib/session";
+import { useSession } from "@/app/hooks/session";
 import { Logout } from "@/app/components/auth/logout";
 
 export function AppHeader() {
@@ -12,11 +12,11 @@ export function AppHeader() {
 }
 
 async function LoginLogout() {
-    const session = await verifySession()
+    const session = await useSession()
 
     return (
         <nav>
-            {session.isAuth ? (
+            {session.authenticated ? (
                 <Logout />
             ) : (
                 <Link href="login">Login</Link>
