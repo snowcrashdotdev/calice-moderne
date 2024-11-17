@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { useSession } from "@/app/hooks/session";
+import { useSession } from "@/app/lib/session";
 import { Logout } from "@/app/components/auth/logout";
 
 export function AppHeader() {
