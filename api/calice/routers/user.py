@@ -7,7 +7,7 @@ from calice.models.validation.user import UserCreate, UserNew, UserRead, UserPat
 router = APIRouter(prefix="/users")
 
 
-@router.get("/", response_model=List[UserRead])
+@router.get("/", response_model=List[UserRead], dependencies=[can_manage_user])
 async def index_users(user_repository: user.repository):
     users = await user_repository.find()
 
