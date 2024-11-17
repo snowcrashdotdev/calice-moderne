@@ -27,7 +27,7 @@ class AccessToken(BaseModel):
 
     @field_validator("scopes")
     def has_valid_scopes(v: str):
-        if not all([scope in [s for s in OAuth2Scope] for scope in v.split(" ")]):
+        if v and not all([scope in [s for s in OAuth2Scope] for scope in v.split(" ")]):
             raise ValueError("Scopes contains an unrecognized value")
 
         return v
