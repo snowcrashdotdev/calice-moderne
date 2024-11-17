@@ -18,10 +18,10 @@ const request = createClient<paths>({ baseUrl: env.API_URL })
 
 const authMiddleware: Middleware = {
     onRequest: async ({ request }) => {
-        const accessToken = await getSession()
+        const session = await getSession()
 
-        if (accessToken) {
-            request.headers.set("Authorization", `Bearer ${accessToken}`)
+        if (session?.token) {
+            request.headers.set("Authorization", `Bearer ${session.token}`)
         }
 
         return request

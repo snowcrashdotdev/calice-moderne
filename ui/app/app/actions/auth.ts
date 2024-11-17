@@ -3,7 +3,7 @@ import { z } from "zod";
 import { redirect } from "next/navigation";
 import request, { multipartSerializer } from "@/app/lib/sdk";
 import { LoginFormSchema, SignupFormSchema, type InferredErrors } from "@/app/lib/validation";
-import { createSession, deleteSession, getSession } from "@/app/lib/session";
+import { createSession, deleteSession } from "@/app/lib/session";
 
 type SignupFormValues = {
     username: string,

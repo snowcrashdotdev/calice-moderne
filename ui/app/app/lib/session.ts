@@ -7,13 +7,19 @@ import type { AuthResponse, AccessToken } from "./calice.types"
 export const ACCESS_COOKIE = "auth"
 export const SESSION_COOKIE = "session"
 
+export type ServerSession = {
+    token: string
+    claims: AccessToken
+} | undefined
+
+
 export async function decrypt(token: string = ""): Promise<AccessToken> {
     const [_header, claims, ..._rest] = token.split(".")
 
     return JSON.parse(Buffer.from(claims, "base64url").toString()) as AccessToken
 }
 
-export async function createSession(credentials: AuthResponse): Promise<string> {
+export async function createSession(credentials: AuthResponse): Promise<AuthResponse> {
     const { access_token, refresh_token, expires, refresh_token_expires } = credentials
     const cookieStore = await cookies()
 
@@ -41,7 +47,7 @@ export async function createSession(credentials: AuthResponse): Promise<string> 
         }
     )
 
-    return access_token
+    return credentials
 }
 
 export async function deleteSession() {
@@ -50,7 +56,7 @@ export async function deleteSession() {
     cookieStore.delete(SESSION_COOKIE)
 }
 
-async function useRefreshToken(token: string): Promise<AccessToken | undefined> {
+async function useRefreshToken(token: string): Promise<ServerSession> {
     const { data, error } = await request.POST("/oauth/token", {
         body: {
             grant_type: "refresh_token",
@@ -64,10 +70,10 @@ async function useRefreshToken(token: string): Promise<AccessToken | undefined> 
         deleteSession()
         return undefined
     } else {
-        createSession(data)
-        const accessToken = await decrypt(data.access_token)
+        const { access_token: token } = await createSession(data)
+        const claims = await decrypt(token)
 
-        return accessToken
+        return { token, claims }
     }
 }
 
@@ -75,15 +81,16 @@ export async function getAccessToken(): Promise<string | undefined> {
     return (await cookies()).get(ACCESS_COOKIE)?.value
 }
 
-export const getSession = cache(async (): Promise<AccessToken | undefined> => {
+export const getSession = cache(async (): Promise<ServerSession> => {
     const cookieStore = await cookies()
     const accessTokenCookie = cookieStore.get(ACCESS_COOKIE)
     const refreshTokenCookie = cookieStore.get(SESSION_COOKIE)
 
     if (accessTokenCookie) {
-        const claims = await decrypt(accessTokenCookie.value)
+        const token = accessTokenCookie.value
+        const claims = await decrypt(token)
 
-        return claims
+        return { token, claims }
     } else if (refreshTokenCookie) {
         const claims = await useRefreshToken(refreshTokenCookie.value)
 
