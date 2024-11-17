@@ -4,6 +4,25 @@
  */
 
 export interface paths {
+    "/games/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Index Games */
+        get: operations["index_games_games__get"];
+        put?: never;
+        /** Create Game */
+        post: operations["create_game_games__post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Update Game */
+        patch: operations["update_game_games__patch"];
+        trace?: never;
+    };
     "/oauth/token": {
         parameters: {
             query?: never;
@@ -121,6 +140,53 @@ export interface components {
             /** Client Secret */
             client_secret?: string | null;
         };
+        /** GameCreate */
+        GameCreate: {
+            /** Title */
+            title: string;
+            /** Slug */
+            slug?: string;
+            /** Filename */
+            filename?: string;
+        };
+        /** GameRead */
+        GameRead: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Createdat
+             * Format: date-time
+             */
+            createdAt: string;
+            /**
+             * Updatedat
+             * Format: date-time
+             */
+            updatedAt: string;
+            /** Title */
+            title: string;
+            /** Slug */
+            slug: string;
+            /** Filename */
+            filename?: string;
+        };
+        /** GameUpdate */
+        GameUpdate: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Title */
+            title?: string;
+            /** Slug */
+            slug?: string;
+            /** Filename */
+            filename?: string;
+        };
         /** HTTPValidationError */
         HTTPValidationError: {
             /** Detail */
@@ -130,10 +196,10 @@ export interface components {
         TournamentCreate: {
             /** Title */
             title: string;
-            /** Description */
-            description: string;
             /** Slug */
             slug?: string;
+            /** Description */
+            description: string;
             /**
              * Starttime
              * Format: date-time
@@ -152,12 +218,22 @@ export interface components {
              * Format: uuid
              */
             id: string;
+            /**
+             * Createdat
+             * Format: date-time
+             */
+            createdAt: string;
+            /**
+             * Updatedat
+             * Format: date-time
+             */
+            updatedAt: string;
             /** Title */
             title: string;
-            /** Description */
-            description: string;
             /** Slug */
             slug: string;
+            /** Description */
+            description: string;
             /**
              * Starttime
              * Format: date-time
@@ -226,6 +302,92 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
+    index_games_games__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GameRead"][];
+                };
+            };
+        };
+    };
+    create_game_games__post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["GameCreate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GameRead"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_game_games__patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["GameUpdate"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GameRead"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     request_access_token_oauth_token_post: {
         parameters: {
             query?: never;
