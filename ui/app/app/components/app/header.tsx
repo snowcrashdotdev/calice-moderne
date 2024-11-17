@@ -19,7 +19,7 @@ async function LoginLogout() {
             {session.authenticated ? (
                 <Logout />
             ) : (
-                <Link href="login">Login</Link>
+                <Link href="/login">Login</Link>
             )}
         </nav>
     )
