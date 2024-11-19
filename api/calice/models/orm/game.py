@@ -5,6 +5,6 @@ from calice.models.orm import BaseResource
 
 
 class Game(BaseResource):
-    __tablename__ = "games"
+    __tablename__ = "game"
 
     filename: Mapped[Optional[str]] = mapped_column(String(32))

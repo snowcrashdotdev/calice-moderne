@@ -10,7 +10,7 @@ from sqlalchemy.types import (
 from calice.models.orm import Base, UuidMixin
 
 class User(Base, UuidMixin):
-    __tablename__ = "users"
+    __tablename__ = "user"
     username: Mapped[str] = mapped_column(unique=True, index=True, nullable=False)
     hashed_password: Mapped[str] = mapped_column(nullable=False)
     role: Mapped[List[str]] = mapped_column(ARRAY(String), default=["USER"])

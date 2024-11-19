@@ -10,7 +10,7 @@ from calice.models.orm import Base, UuidMixin
 
 
 class Session(Base, UuidMixin):
-    __tablename__ = "sessions"
+    __tablename__ = "session"
     token: Mapped[str] = mapped_column(String, index=True)
     user_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True))
     expires: Mapped[datetime] = mapped_column(DateTime(timezone=True))
