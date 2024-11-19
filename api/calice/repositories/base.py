@@ -3,7 +3,7 @@ from sqlalchemy import select
 from sqlalchemy import UnaryExpression
 from calice.dependencies.database import DatabaseSession
 from calice.models.validation.base import Base as BaseDataModel
-from calice.models.orm.base import Base as BaseORMModel
+from calice.models.orm import Base as BaseORMModel
 
 Model = TypeVar("Model", bound=BaseORMModel)
 ModelClass = Type[Model]

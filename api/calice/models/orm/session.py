@@ -6,7 +6,8 @@ from sqlalchemy.types import (
     DateTime,
     String,
 )
-from calice.models.orm.base import Base, UuidMixin
+from calice.models.orm import Base
+from calice.models.orm.base import UuidMixin
 
 
 class Session(Base, UuidMixin):

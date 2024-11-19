@@ -10,7 +10,7 @@ from fastapi.security import (
     OAuth2PasswordRequestFormStrict,
     SecurityScopes,
 )
-from calice.models.orm.user import User
+from calice.models.orm import User
 from calice.models.validation.security import (
     AuthResponse,
     CreateSession,

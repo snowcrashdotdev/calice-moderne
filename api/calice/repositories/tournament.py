@@ -1,7 +1,7 @@
 from typing import Annotated
 from fastapi import Depends
 from calice.repositories.base import RepositoryFactory
-from calice.models.orm.tournament import Tournament
+from calice.models.orm import Tournament
 
 
 class TournamentRepository(RepositoryFactory(Tournament, order_by=Tournament.end_time.desc())):

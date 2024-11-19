@@ -2,8 +2,7 @@ from datetime import datetime, timezone
 from typing import Annotated
 from fastapi import Depends
 from calice.repositories import base
-from calice.models.orm.user import User
-from calice.models.orm.session import Session
+from calice.models.orm import Session, User
 
 
 class SessionRepository(base.RepositoryFactory(Session)):

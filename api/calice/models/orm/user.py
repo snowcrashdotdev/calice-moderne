@@ -7,7 +7,8 @@ from sqlalchemy.types import (
     ARRAY,
     String
 )
-from calice.models.orm.base import Base, UuidMixin
+from calice.models.orm import Base
+from calice.models.orm.base import UuidMixin
 
 class User(Base, UuidMixin):
     __tablename__ = "user"
