@@ -1,7 +1,7 @@
 from datetime import datetime
 from sqlalchemy import String, DateTime
 from sqlalchemy.orm import Mapped, mapped_column
-from calice.models.orm import BaseResource
+from calice.models.orm.base import BaseResource
 
 class Tournament(BaseResource):
     __tablename__ = "tournament"
