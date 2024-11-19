@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.responses import FileResponse
 from calice.routers import (
     game,
+    ruleset,
     security,
     tournament,
     user
@@ -14,6 +15,7 @@ async def favicon():
     return FileResponse('./calice/favicon.ico')
 
 app.include_router(game.router)
+app.include_router(ruleset.router)
 app.include_router(security.router)
 app.include_router(tournament.router)
 app.include_router(user.router)
