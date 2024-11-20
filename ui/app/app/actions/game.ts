@@ -1,15 +1,18 @@
 "use server"
+
+import { revalidatePath } from "next/cache"
 import request from "@/app/lib/sdk"
 import { GameFormSchema, type InferredFormState } from "@/app/lib/validation"
-import { revalidatePath } from "next/cache"
-import { redirect } from "next/navigation"
 
-type GameFormState = InferredFormState<typeof GameFormSchema>
+export type GameFormState = InferredFormState<typeof GameFormSchema>
 
 
-export async function create(_state: GameFormState, form: FormData): Promise<GameFormState> {
+export async function createOrUpdate(id: string | undefined, _state: GameFormState, form: FormData): Promise<GameFormState> {
     const values = Object.fromEntries(form.entries())
-    const { data, error } = GameFormSchema.safeParse(values)
+    const { data, error } = GameFormSchema.safeParse({
+        id,
+        ...values
+    })
 
     if (error) {
         return {
@@ -17,18 +20,42 @@ export async function create(_state: GameFormState, form: FormData): Promise<Gam
             values
         }
     } else {
-        const { data: _game, error } = await request.POST("/games/", {
-            body: data
-        })
+        if (id) {
+            const { data: game, error: serverError } = await request.PATCH("/games/", {
+                body: {
+                    ...data,
+                    id
+                }
+            })
 
-        if (error) {
-            return {
-                values,
-                message: "Server error"
+            if (serverError) {
+                return {
+                    values,
+                    message: "Server error"
+                }
+            } else {
+                revalidatePath("/manage/rulesets")
+
+                return {
+                    values: game
+                }
             }
         } else {
-            revalidatePath("/manage/rulesets")
-            redirect("/manage/rulesets")
+            const { data: game, error: serverError } = await request.POST("/games/", {
+                body: data
+            })
+
+            if (serverError) {
+                return {
+                    values,
+                    message: "Server error."
+                }
+            } else {
+                revalidatePath("/manage/rulesets")
+                return {
+                    values: game
+                }
+            }
         }
     }
 }
