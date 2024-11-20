@@ -3,6 +3,9 @@ import { type components, UserRole } from "./calice"
 export type Tournament = components["schemas"]["TournamentRead"]
 export type User = components["schemas"]["UserRead"]
 export type AuthResponse = components["schemas"]["AuthResponse"]
+export type Game = components["schemas"]["GameRead"]
+export type Ruleset = components["schemas"]["RulesetRead"]
+
 export type AccessToken = {
     sub: string
     name: string
