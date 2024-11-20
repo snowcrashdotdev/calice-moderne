@@ -23,10 +23,3 @@ async def update_ruleset(
     updated_ruleset = await ruleset_repository.update(ruleset)
 
     return updated_ruleset
-
-
-@router.get("/{game_id}", response_model=List[RulesetRead])
-async def get_rulesets(game_id: str, ruleset_repository: ruleset.repository):
-    rulesets = await ruleset_repository.for_game(game_id)
-
-    return rulesets
