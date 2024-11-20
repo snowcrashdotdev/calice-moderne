@@ -1,6 +1,7 @@
 "use server"
 import request from "@/app/lib/sdk"
 import { GameFormSchema, type InferredFormState } from "@/app/lib/validation"
+import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
 
 type GameFormState = InferredFormState<typeof GameFormSchema>
@@ -26,7 +27,8 @@ export async function create(_state: GameFormState, form: FormData): Promise<Gam
                 message: "Server error"
             }
         } else {
-            redirect("/")
+            revalidatePath("/manage/rulesets")
+            redirect("/manage/rulesets")
         }
     }
 }
