@@ -10,7 +10,7 @@
     "gen:types": "openapi-typescript $API_URL --enum -o ./app/lib/calice.ts"
   },
   "dependencies": {
-    "@mdxeditor/editor": "^3.19.0",
+    "@mdxeditor/editor": "^3.19.2",
     "@t3-oss/env-nextjs": "^0.11.1",
     "next": "15.0.3",
     "openapi-fetch": "^0.13.0",
