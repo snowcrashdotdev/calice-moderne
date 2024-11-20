@@ -37,7 +37,7 @@ def RepositoryFactory(model: SQLAlchemyModelType, order_by: UnaryExpression = No
             q = select(model).order_by(cls.order_by).limit(cls.LIMIT).offset(offset)
             res = await cls.session.scalars(q)
 
-            return res.all()
+            return res.unique().all()
 
         @classmethod
         async def find_one(self, *args, **kwargs) -> Union[SQLAlchemyModel, None]:

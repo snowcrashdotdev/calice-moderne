@@ -11,4 +11,4 @@ class Game(BaseResource):
     __tablename__ = "game"
 
     filename: Mapped[Optional[str]] = mapped_column(String(32))
-    rulesets: Mapped[List["Ruleset"]] = relationship("Ruleset", back_populates="game")
+    rulesets: Mapped[List["Ruleset"]] = relationship("Ruleset", back_populates="game", lazy="joined")

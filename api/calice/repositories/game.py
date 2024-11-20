@@ -1,5 +1,4 @@
 from typing import Annotated
-
 from fastapi import Depends
 from calice.repositories.base import RepositoryFactory
 from calice.models.orm import Game

@@ -2,7 +2,11 @@ from typing import List
 from fastapi import APIRouter
 from calice.dependencies.security import can_manage_tournament
 from calice.repositories import game
-from calice.models.validation.game import GameCreate, GameRead, GameUpdate
+from calice.models.validation.game import (
+    GameCreate,
+    GameRead,
+    GameUpdate,
+)
 
 router = APIRouter(prefix="/games", dependencies=[can_manage_tournament])
 

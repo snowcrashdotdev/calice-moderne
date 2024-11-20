@@ -1,10 +1,12 @@
-from typing import Annotated
+from typing import Annotated, List
 from pydantic import Field
 from calice.models.validation.base import CreateResource, ReadResource, UpdateResource
+from calice.models.validation.ruleset import RulesetRead
 
 
 class GameRead(ReadResource):
     filename: str = None
+    rulesets: List[RulesetRead] = []
 
 
 class GameCreate(CreateResource):
