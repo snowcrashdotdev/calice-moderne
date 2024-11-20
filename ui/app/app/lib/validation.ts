@@ -28,15 +28,14 @@ export const SignupFormSchema = z.object({
 }).refine(v => v.password === v.confirmPassword, { message: "Passwords must match", path: ["confirmPassword"] })
 
 const BaseResourceSchema = z.object({
+    id: z.string().optional(),
     title: z.string().max(64),
     slug: z.string().max(64).optional(),
 })
 
 export const TournamentFormSchema = BaseResourceSchema.merge(
     z.object({
-        title: z.string(),
-        slug: z.string().optional(),
-        description: z.string(),
+        description: z.string().max(512),
         startTime: z.coerce.date().transform(d => d.toISOString()),
         endTime: z.coerce.date().transform(d => d.toISOString()),
     })).refine(v => v.endTime > v.startTime, { message: "Tournament must have later end time than start time.", path: ["endTime"] })
@@ -46,3 +45,10 @@ export const GameFormSchema = BaseResourceSchema.merge(
         filename: z.string().max(64).optional()
     })
 )
+
+export const RulesetFormSchema = BaseResourceSchema.omit({ slug: true }).merge(
+    z.object({
+        gameId: z.string().optional(),
+        description: z.string(),
+    }
+    )).refine(r => r.id || r.gameId, { message: "You must provide a game ID (create) or ruleset ID (update)" })
