@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "gen:types": "openapi-typescript $API_URL --enum -o ./app/lib/calice.ts"
+    "gen:types": "openapi-typescript $API_URL --enum -o ./app/lib/calice.openapi.ts"
   },
   "dependencies": {
     "@mdxeditor/editor": "^3.19.2",

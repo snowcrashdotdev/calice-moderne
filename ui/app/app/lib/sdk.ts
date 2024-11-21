@@ -1,7 +1,7 @@
 import "server-only"
 
 import createClient, { type Middleware } from "openapi-fetch"
-import type { paths } from "@/app/lib/calice"
+import type { paths } from "@/app/lib/calice.openapi"
 import { getAccessToken } from "@/app/lib/session"
 import { env } from "@/app/lib/env.mjs"
 
