@@ -8,7 +8,7 @@ export function NewGame() {
     const [showForm, setShowForm] = useState<boolean>(false)
     return (
         <>
-            <div className="border border-gray-400 p-4 rounded text-center cursor-pointer" onClick={() => setShowForm(true)}>
+            <div className="flex flex-col justify-center items-center border border-gray-400 p-4 rounded text-center cursor-pointer" onClick={() => setShowForm(true)}>
                 <p>➕</p>
                 <p>Add New</p>
             </div>

@@ -8,7 +8,7 @@ type GameBlockProps = {
 
 export function GameBlock({ onClick, ...game }: GameBlockProps) {
     return (
-        <article onClick={onClick} className="relative p-4 border border-gray-300 rounded text-center cursor-pointer">
+        <article onClick={onClick} className="relative flex flex-col justify-center items-center p-4 border border-gray-300 rounded text-center cursor-pointer">
             <h2 className="relative z-10">{game.title}</h2>
             {game.imageUrl && (<Image className="z-0 pointer-events-none opacity-30" alt="" src={game.imageUrl} fill={true} />)}
         </article>

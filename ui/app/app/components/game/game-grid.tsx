@@ -4,7 +4,7 @@ import { EditGame, NewGame } from "@/app/components/game"
 
 export function GameGrid({ games }: { games: Game[] }) {
     return (
-        <Grid>
+        <Grid className="grid-rows-[150px]">
             {(games ?? []).map(g => <EditGame key={g.id} {...g} />)}
             <NewGame />
         </Grid>
