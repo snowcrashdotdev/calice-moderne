@@ -164,6 +164,8 @@ export interface components {
             title: string;
             /** Slug */
             slug?: string;
+            /** Imageurl */
+            imageUrl?: string;
             /** Filename */
             filename?: string;
         };
@@ -188,6 +190,8 @@ export interface components {
             title: string;
             /** Slug */
             slug: string;
+            /** Imageurl */
+            imageUrl?: string;
             /** Filename */
             filename?: string;
             /**
@@ -207,6 +211,8 @@ export interface components {
             title?: string;
             /** Slug */
             slug?: string;
+            /** Imageurl */
+            imageUrl?: string;
             /** Filename */
             filename?: string;
         };

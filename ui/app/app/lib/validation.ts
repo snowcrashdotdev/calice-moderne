@@ -42,6 +42,7 @@ export const TournamentFormSchema = BaseResourceSchema.merge(
 
 export const GameFormSchema = BaseResourceSchema.merge(
     z.object({
+        imageUrl: z.string().url().optional(),
         filename: z.string().max(64).optional()
     })
 )

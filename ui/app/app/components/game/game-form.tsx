@@ -12,6 +12,9 @@ export function GameForm({ edit }: { edit?: Game }) {
 
     return (
         <Form action={action}>
+            <Field label="Game Image">
+                <Input id="image" name="image" type="file" />
+            </Field>
             <Field label="Game Title" error={state?.errors?.title}>
                 <Input id="title" name="title" type="text" defaultValue={state?.values?.title} required />
             </Field>
