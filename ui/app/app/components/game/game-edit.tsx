@@ -5,6 +5,7 @@ import { Dialog } from "@/app/components/layout"
 import { GameForm } from "@/app/components/game"
 import { RulesetForm } from "@/app/components/ruleset";
 import type { Game } from "@/app/lib/calice.types";
+import { GameBlock } from "@/app/components/game";
 
 export function EditGame(game: Game) {
     const [showForm, setShowForm] = useState<boolean>(false)
@@ -17,10 +18,7 @@ export function EditGame(game: Game) {
 
     return (
         <>
-            <article onClick={() => setShowForm(true)} className="p-4 border border-gray-300 rounded text-center cursor-pointer">
-                <h2>{game.title}</h2>
-            </article>
-
+            <GameBlock onClick={() => setShowForm(true)} {...game} />
             <Dialog open={showForm} onClose={handleClose}>
                 <GameForm edit={game} />
 
