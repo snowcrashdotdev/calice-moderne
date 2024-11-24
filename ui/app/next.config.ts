@@ -11,6 +11,4 @@ const nextConfig: NextConfig = {
   }
 };
 
-console.debug(JSON.stringify(nextConfig))
-
 export default nextConfig;
