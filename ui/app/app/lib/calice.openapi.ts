@@ -230,6 +230,7 @@ export interface components {
             gameId: string;
             /** Title */
             title: string;
+            type: components["schemas"]["RulesetType"];
             /** Description */
             description: string;
         };
@@ -242,9 +243,15 @@ export interface components {
             id: string;
             /** Title */
             title: string;
+            type: components["schemas"]["RulesetType"];
             /** Description */
             description: string;
         };
+        /**
+         * RulesetType
+         * @enum {string}
+         */
+        RulesetType: RulesetType;
         /** RulesetUpdate */
         RulesetUpdate: {
             /**
@@ -254,6 +261,7 @@ export interface components {
             id: string;
             /** Title */
             title?: string;
+            type?: components["schemas"]["RulesetType"];
             /** Description */
             description?: string;
         };
@@ -722,6 +730,10 @@ export interface operations {
             };
         };
     };
+}
+export enum RulesetType {
+    SCORE = "SCORE",
+    SPEEDRUN = "SPEEDRUN"
 }
 export enum UserRole {
     USER = "USER",

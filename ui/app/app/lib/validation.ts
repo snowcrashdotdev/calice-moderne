@@ -1,4 +1,5 @@
 import { z } from "zod"
+import { RulesetType } from "@/app/lib/calice.openapi"
 
 export type InferredFormState<S extends z.ZodObject<any, any, any>> = {
     errors?: { [Key in keyof z.infer<S>]?: string[] },
@@ -50,6 +51,7 @@ export const GameFormSchema = BaseResourceSchema.merge(
 export const RulesetFormSchema = BaseResourceSchema.omit({ slug: true }).merge(
     z.object({
         gameId: z.string().optional(),
+        type: z.nativeEnum(RulesetType),
         description: z.string(),
     }
     )).refine(r => r.id || r.gameId, { message: "You must provide a game ID (create) or ruleset ID (update)" })

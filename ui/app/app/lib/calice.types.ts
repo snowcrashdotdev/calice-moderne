@@ -1,4 +1,4 @@
-import { type components, UserRole } from "./calice.openapi"
+import { type components, RulesetType, UserRole } from "./calice.openapi"
 
 export type Tournament = components["schemas"]["TournamentRead"]
 export type User = components["schemas"]["UserRead"]
@@ -18,4 +18,4 @@ export type AccessToken = {
     nbf?: string
 }
 
-export { UserRole }
+export { RulesetType, UserRole }
