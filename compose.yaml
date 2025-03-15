@@ -1,0 +1,9 @@
+services:
+  pg:
+    image: postgres:alpine
+    restart: always
+    shm_size: 128mb
+    environment:
+      POSTGRES_PASSWORD: calice
+    ports:
+      - "5432:5432"
