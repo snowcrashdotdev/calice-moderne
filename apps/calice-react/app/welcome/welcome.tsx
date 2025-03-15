@@ -1,7 +1,7 @@
 import logoDark from "./logo-dark.svg";
 import logoLight from "./logo-light.svg";
 
-export function Welcome() {
+export function Welcome({api} : { api: string }) {
   return (
     <main className="flex items-center justify-center pt-16 pb-4">
       <div className="flex-1 flex flex-col items-center gap-16 min-h-0">
@@ -25,6 +25,7 @@ export function Welcome() {
               What&apos;s next?
             </p>
             <ul>
+              <li>{api}</li>
               {resources.map(({ href, text, icon }) => (
                 <li key={href}>
                   <a

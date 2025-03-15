@@ -1,11 +1,16 @@
 {
-  "name": "calice-hono",
+  "name": "@calice/hono",
+  "version": "0.1.0",
+  "main": "src/index.ts",
   "scripts": {
     "dev": "wrangler dev",
     "deploy": "wrangler deploy --minify"
   },
   "dependencies": {
-    "hono": "^4.7.4"
+    "@calice/validators": "workspace:^",
+    "@hono/zod-validator": "^0.4.3",
+    "hono": "^4.7.4",
+    "kysely": "^0.27.6"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20250313.0",
