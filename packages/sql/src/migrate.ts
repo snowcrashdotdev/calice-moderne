@@ -4,7 +4,8 @@ import {
     Migrator,
     FileMigrationProvider,
 } from 'kysely'
-import { db } from './database'
+import { getDatabase } from './connect'
+import config from "../kanelrc"
 
 const provider = new FileMigrationProvider({
     fs,
@@ -13,6 +14,8 @@ const provider = new FileMigrationProvider({
 })
 
 const migrate = async () => {
+    const db = getDatabase(config.connection)
+
     const migrator = new Migrator({
         db,
         provider
