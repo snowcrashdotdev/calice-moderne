@@ -1,0 +1,15 @@
+{
+    "name": "@calice/validators",
+    "version": "0.1.0",
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "main": "index.ts",
+    "packageManager": "pnpm@10.6.3",
+    "devDependencies": {
+        "typescript": "^5.8.2"
+    },
+    "dependencies": {
+        "zod": "^3.24.2"
+    }
+}

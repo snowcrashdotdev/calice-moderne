@@ -1,0 +1,16 @@
+{
+    "name": "@calice/client",
+    "version": "0.1.0",
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "packageManager": "pnpm@10.6.3",
+    "main": "index.ts",
+    "dependencies": {
+        "@calice/hono": "workspace:^",
+        "hono": "^4.7.4"
+    },
+    "devDependencies": {
+        "typescript": "^5.8.2"
+    }
+}
