@@ -10,6 +10,9 @@ importers:
 
   apps/calice-hono:
     dependencies:
+      '@calice/sql':
+        specifier: workspace:^
+        version: link:../../packages/sql
       '@calice/validators':
         specifier: workspace:^
         version: link:../../packages/validators

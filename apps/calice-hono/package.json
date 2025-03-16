@@ -7,6 +7,7 @@
     "deploy": "wrangler deploy --minify"
   },
   "dependencies": {
+    "@calice/sql": "workspace:^",
     "@calice/validators": "workspace:^",
     "@hono/zod-validator": "^0.4.3",
     "hono": "^4.7.4",
