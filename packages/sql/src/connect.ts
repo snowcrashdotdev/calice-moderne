@@ -13,3 +13,5 @@ export const getDatabase = (config: PoolConfig) => {
 
     return db
 }
+
+export * from "./repositories"

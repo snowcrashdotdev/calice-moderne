@@ -6,8 +6,8 @@
   "license": "ISC",
   "main": "src/connect.ts",
   "scripts": {
-    "codegen": "ts-node ./codegen.ts",
-    "migrate": "ts-node ./src/migrate.ts"
+    "codegen": "tsx ./codegen.ts",
+    "migrate": "tsx ./src/migrate.ts"
   },
   "packageManager": "pnpm@10.6.3",
   "devDependencies": {
@@ -15,7 +15,7 @@
     "@types/pg": "^8.11.11",
     "kanel": "^3.11.1",
     "kanel-kysely": "^0.6.1",
-    "ts-node": "^10.9.2",
+    "tsx": "^4.19.3",
     "typescript": "^5.8.2"
   },
   "dependencies": {
