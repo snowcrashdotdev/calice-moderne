@@ -1,4 +1,9 @@
 {
+  "references": [
+    {
+      "path": "../../packages/sql/tsconfig.json"
+    }
+  ],
   "compilerOptions": {
     "target": "ESNext",
     "module": "ESNext",

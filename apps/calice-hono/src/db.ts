@@ -1,6 +1,6 @@
-import { getDatabase } from "@calice/sql"
+import { getDatabase, TournamentRepository } from "@calice/sql"
 
-export default getDatabase({
+const db = getDatabase({
     database: "postgres",
     host: "localhost",
     user: "postgres",
@@ -8,3 +8,5 @@ export default getDatabase({
     port: 5432,
     max: 10
 })
+
+export const tournamentRepository = new TournamentRepository(db)

@@ -1,11 +1,11 @@
 import { Hono } from 'hono'
 import { zValidator } from '@hono/zod-validator'
 import { createTournamentSchema } from '@calice/validators'
-import db from "../db"
+import { tournamentRepository } from '../db'
 
 const router = new Hono()
     .get("/", async (c) => {
-        const tournaments = await db.selectFrom("tournament").selectAll().execute()
+        const tournaments = await tournamentRepository.findAll()
 
         return c.json(tournaments)
     })
@@ -18,7 +18,7 @@ const router = new Hono()
         async (c) => {
             const validated = c.req.valid("json")
 
-            const newTournament = await db.insertInto("tournament").values(validated).returningAll().executeTakeFirstOrThrow()
+            const newTournament = await tournamentRepository.insert(validated)
 
             return c.json(newTournament)
         }
