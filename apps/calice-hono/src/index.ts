@@ -5,6 +5,6 @@ const app = new Hono()
 
 const routes = app.route("/tournaments", tournaments)
 
-export default app
-
 export type RPCCalice = typeof routes
+
+export default app

@@ -1,10 +1,12 @@
 import { Hono } from 'hono'
 import { zValidator } from '@hono/zod-validator'
 import { createTournamentSchema, updateTournamentSchema } from '@calice/validators'
-import { tournamentRepository } from '../db'
+import { withTournamentRepository } from '../db'
 
 const router = new Hono()
+    .use(withTournamentRepository)
     .get("/", async (c) => {
+        const tournamentRepository = c.get("tournaments")
         const tournaments = await tournamentRepository.findAll()
 
         return c.json(tournaments)
@@ -13,6 +15,7 @@ const router = new Hono()
         "/:id",
         async (c) => {
             const { id } = c.req.param()
+            const tournamentRepository = c.get("tournaments")
             const tournament = await tournamentRepository.find(id)
 
             return c.json(tournament)
@@ -26,6 +29,7 @@ const router = new Hono()
         ),
         async (c) => {
             const validated = c.req.valid("json")
+            const tournamentRepository = c.get("tournaments")
 
             const newTournament = await tournamentRepository.insert(validated)
 
@@ -41,6 +45,7 @@ const router = new Hono()
         async (c) => {
             const { id } = c.req.param()
             const validated = c.req.valid("json")
+            const tournamentRepository = c.get("tournaments")
 
             const updatedTournament = await tournamentRepository.update(id, validated)
 
@@ -50,6 +55,7 @@ const router = new Hono()
     .delete(
         "/:id", async (c) => {
             const { id } = c.req.param()
+            const tournamentRepository = c.get("tournaments")
             const result = await tournamentRepository.delete(id)
 
             return c.json(result)
