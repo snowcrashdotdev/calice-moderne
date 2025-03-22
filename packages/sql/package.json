@@ -11,7 +11,7 @@
   },
   "packageManager": "pnpm@10.6.3",
   "devDependencies": {
-    "@types/node": "^20.17.24",
+    "@types/node": "^22.13.11",
     "@types/pg": "^8.11.11",
     "kanel": "^3.11.1",
     "kanel-kysely": "^0.6.1",
@@ -20,6 +20,6 @@
   },
   "dependencies": {
     "kysely": "^0.27.6",
-    "pg": "^8.14.0"
+    "pg": "^8.14.1"
   }
 }

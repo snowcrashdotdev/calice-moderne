@@ -10,11 +10,11 @@
     "@calice/sql": "workspace:^",
     "@calice/validators": "workspace:^",
     "@hono/zod-validator": "^0.4.3",
-    "hono": "^4.7.4",
+    "hono": "^4.7.5",
     "kysely": "^0.27.6"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20250319.0",
-    "wrangler": "^3.114.2"
+    "@cloudflare/workers-types": "^4.20250321.0",
+    "wrangler": "^4.3.0"
   }
 }
