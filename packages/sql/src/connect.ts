@@ -1,6 +1,6 @@
 import { Pool, type PoolConfig } from 'pg'
 import { Kysely, PostgresDialect, CamelCasePlugin } from 'kysely'
-import type Database from './Database'
+import type Database from './Database.ts'
 
 const plugins = [new CamelCasePlugin()]
 
@@ -14,4 +14,4 @@ export const getDatabase = (config: PoolConfig) => {
     return db
 }
 
-export * from "./repositories"
+export * from "./repositories/index.ts"
