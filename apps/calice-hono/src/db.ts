@@ -1,4 +1,4 @@
-import { getDatabase, TournamentRepository, type RepositoryConstructor } from "@calice/sql"
+import { GameRepository, getDatabase, TournamentRepository, type RepositoryConstructor } from "@calice/sql"
 import BaseRepository from "@calice/sql/src/repositories/BaseRepository"
 import { createMiddleware } from "hono/factory"
 
@@ -11,7 +11,7 @@ export const connectionConfig = {
     max: 10
 }
 
-function createRepositoryMiddleware<R extends BaseRepository>(handle: string, repository: RepositoryConstructor) {
+function createRepositoryMiddleware<R extends BaseRepository<any>>(handle: string, repository: RepositoryConstructor<R>) {
     return createMiddleware<{
         Variables: {
             [handle]: R
@@ -25,3 +25,5 @@ function createRepositoryMiddleware<R extends BaseRepository>(handle: string, re
 }
 
 export const withTournamentRepository = createRepositoryMiddleware<TournamentRepository>("tournaments", TournamentRepository)
+
+export const withGameRepository = createRepositoryMiddleware<GameRepository>("games", GameRepository)
