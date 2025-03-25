@@ -4,7 +4,7 @@ import type { Insertable, Updateable, OperandValueExpressionOrList, ReferenceExp
 
 type Value<T extends keyof PublicSchema> = OperandValueExpressionOrList<PublicSchema, T, ReferenceExpression<PublicSchema, T>>
 
-export default abstract class BaseRepository<T extends keyof PublicSchema = any> {
+export default abstract class BaseRepository<const T extends keyof PublicSchema> {
     readonly abstract table: T
 
     constructor(private db: Kysely<PublicSchema>) { }
@@ -32,7 +32,7 @@ export default abstract class BaseRepository<T extends keyof PublicSchema = any>
     async update(id: string, values: Updateable<PublicSchema[T]>) {
         return this.db.updateTable(this.table)
             .returningAll()
-            .where("id", "=", id as Value<T>)
+            .where("id", "=", id as Value<typeof this.table>)
             .set(values)
             .executeTakeFirstOrThrow()
     }
@@ -44,4 +44,6 @@ export default abstract class BaseRepository<T extends keyof PublicSchema = any>
     }
 }
 
-export type RepositoryConstructor = new <R extends BaseRepository>(db: Kysely<PublicSchema>) => R
+export interface RepositoryConstructor<R extends BaseRepository<any>> {
+    new(db: Kysely<PublicSchema>): R
+}
