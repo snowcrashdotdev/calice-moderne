@@ -11,7 +11,7 @@ export const connectionConfig = {
     max: 10
 }
 
-function createRepositoryMiddleware<R extends BaseRepository<any>>(handle: string, repository: RepositoryConstructor<R>) {
+function createRepositoryMiddleware<H extends string, R extends BaseRepository<any>>(handle: H, repository: RepositoryConstructor<R>) {
     return createMiddleware<{
         Variables: {
             [handle]: R
@@ -24,6 +24,6 @@ function createRepositoryMiddleware<R extends BaseRepository<any>>(handle: strin
     })
 }
 
-export const withTournamentRepository = createRepositoryMiddleware<TournamentRepository>("tournaments", TournamentRepository)
+export const withTournamentRepository = createRepositoryMiddleware("tournaments", TournamentRepository)
 
-export const withGameRepository = createRepositoryMiddleware<GameRepository>("games", GameRepository)
+export const withGameRepository = createRepositoryMiddleware("games", GameRepository)
