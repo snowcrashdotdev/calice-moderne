@@ -1,4 +1,9 @@
 {
+  "references": [
+    {
+      "path": "../calice-hono/tsconfig.json"
+    }
+  ],
   "include": [
     "**/*",
     "**/.server/**/*",
