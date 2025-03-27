@@ -3,24 +3,21 @@ import { Welcome } from "../welcome/welcome";
 import api from "~/api"
 
 export async function loader() {
-  const req  = await api.tournaments.$get()
-  if (req.ok) {
-    const list = await req.json()
+  const res = await api.tournaments.$get()
 
-    return list
-  }
+  if (res.ok) return (await res.json())
 
-  return undefined
+  return []
 }
 
 
-export function meta({}: Route.MetaArgs) {
+export function meta({ }: Route.MetaArgs) {
   return [
     { title: "New React Router App" },
     { name: "description", content: "Welcome to React Router!" },
   ];
 }
 
-export default function Home({loaderData}: Route.ComponentProps) {
-  return <Welcome api={loaderData?.list ?? ""} />;
+export default function Home({ loaderData }: Route.ComponentProps) {
+  return <Welcome tournaments={loaderData} />;
 }

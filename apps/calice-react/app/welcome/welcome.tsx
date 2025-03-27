@@ -1,7 +1,8 @@
+import type { Tournament } from "@calice/client";
 import logoDark from "./logo-dark.svg";
 import logoLight from "./logo-light.svg";
 
-export function Welcome({api} : { api: string }) {
+export function Welcome({ tournaments }: { tournaments: Tournament[] }) {
   return (
     <main className="flex items-center justify-center pt-16 pb-4">
       <div className="flex-1 flex flex-col items-center gap-16 min-h-0">
@@ -25,7 +26,7 @@ export function Welcome({api} : { api: string }) {
               What&apos;s next?
             </p>
             <ul>
-              <li>{api}</li>
+              {tournaments.map(({id, title}) => <li key={id}>{title}</li>)}
               {resources.map(({ href, text, icon }) => (
                 <li key={href}>
                   <a
