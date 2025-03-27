@@ -13,3 +13,13 @@ export async function up(db: Kysely<any>): Promise<void> {
         .addColumn("title", "varchar", c => c.notNull())
         .execute()
 }
+
+export async function down(db: Kysely<any>): Promise<void> {
+    await db.schema
+        .dropTable("tournament")
+        .execute()
+
+    await db.schema
+        .dropTable("game")
+        .execute()
+}
