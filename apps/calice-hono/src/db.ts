@@ -12,11 +12,13 @@ export const connectionConfig = {
 }
 
 function createRepositoryMiddleware<H extends string, R extends BaseRepository<any>>(handle: H, repository: RepositoryConstructor<R>) {
-    return createMiddleware<{
+    type Context = {
         Variables: {
-            [handle]: R
+            [K in H]: R
         }
-    }>(async (c, next) => {
+    }
+
+    return createMiddleware<Context>(async (c, next) => {
         const database = getDatabase(connectionConfig)
         c.set(handle, new repository(database))
         await next()
