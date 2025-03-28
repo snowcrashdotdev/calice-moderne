@@ -11,6 +11,12 @@ export default interface TournamentTable {
   id: ColumnType<TournamentId, TournamentId | undefined, TournamentId>;
 
   title: ColumnType<string, string, string>;
+
+  description: ColumnType<string | null, string | null, string | null>;
+
+  startTime: ColumnType<Date, Date | string, Date | string>;
+
+  endTime: ColumnType<Date, Date | string, Date | string>;
 }
 
 export type Tournament = Selectable<TournamentTable>;

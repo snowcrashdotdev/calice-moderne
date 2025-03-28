@@ -11,6 +11,10 @@ export default interface GameTable {
   id: ColumnType<GameId, GameId | undefined, GameId>;
 
   title: ColumnType<string, string, string>;
+
+  description: ColumnType<string | null, string | null, string | null>;
+
+  image: ColumnType<string | null, string | null, string | null>;
 }
 
 export type Game = Selectable<GameTable>;
