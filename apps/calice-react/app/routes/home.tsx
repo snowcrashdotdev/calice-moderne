@@ -1,5 +1,5 @@
 import type { Route } from "./+types/home";
-import { Welcome } from "../welcome/welcome";
+import TournamentList from "~/components/admin/TournamentList";
 import api from "~/api"
 
 export async function loader() {
@@ -19,5 +19,5 @@ export function meta({ }: Route.MetaArgs) {
 }
 
 export default function Home({ loaderData }: Route.ComponentProps) {
-  return <Welcome tournaments={loaderData} />;
+  return <TournamentList tournaments={loaderData} />;
 }
