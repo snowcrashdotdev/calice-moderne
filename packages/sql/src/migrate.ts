@@ -21,7 +21,9 @@ const migrate = async () => {
         provider
     })
 
-    const { error, results } = await migrator.migrateToLatest()
+    const _rollback = await migrator.migrateDown()
+
+    const { error, results } = await migrator.migrateUp()
 
     results?.forEach((it) => {
         if (it.status === 'Success') {
