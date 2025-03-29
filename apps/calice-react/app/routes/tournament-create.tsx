@@ -10,7 +10,7 @@ export async function action({ request }: Route.ActionArgs) {
         const validated = createTournamentSchema.parse(
             Object.fromEntries(formData.entries())
         )
-    
+
         const res = await api.tournaments.$post({ json: validated })
         return res
     } catch (err) {
@@ -18,7 +18,7 @@ export async function action({ request }: Route.ActionArgs) {
         if (err instanceof ZodError) {
             errors = err.format()
         }
-        return {error: true, errors}
+        return { error: true, errors }
     }
 }
 
