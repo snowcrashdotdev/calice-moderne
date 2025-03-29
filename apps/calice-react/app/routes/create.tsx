@@ -5,7 +5,7 @@ import api from "~/api";
 
 export async function action({ request }: Route.ActionArgs) {
     const formData = await request.formData()
-    console.debug(formData.get("startTime"))
+
     try {
         const validated = createTournamentSchema.parse(
             Object.fromEntries(formData.entries())
