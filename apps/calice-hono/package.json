@@ -14,7 +14,7 @@
     "kysely": "^0.27.6"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20250327.0",
-    "wrangler": "^4.6.0"
+    "@cloudflare/workers-types": "^4.20250405.0",
+    "wrangler": "^4.7.2"
   }
 }
