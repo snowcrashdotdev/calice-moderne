@@ -1,4 +1,5 @@
 import { useFetcher } from "react-router"
+import TimeInput from "~/components/forms/TimeInput"
 
 export default function TournamentForm() {
     const fetcher = useFetcher()
@@ -12,9 +13,9 @@ export default function TournamentForm() {
             <textarea name="description"></textarea>
             <fieldset>
                 <label htmlFor="startTime">Start</label>
-                <input type="datetime-local" name="startTime" step="1"></input>
+                <TimeInput id="startTime" name="startTime" step="1" />
                 <label htmlFor="endTime">End</label>
-                <input type="datetime-local" name="endTime" step="1"></input>
+                <TimeInput id="startTime" name="endTime" step="1" />
             </fieldset>
             <button type="submit">Create</button>
         </fetcher.Form>
