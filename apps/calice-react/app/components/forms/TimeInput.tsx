@@ -9,11 +9,14 @@ export default function TimeInput({ defaultValue, name, ...attrs }: Omit<InputHT
         const datetimeUTC = new Date(e.target.value).toISOString()
         setTime(datetimeUTC)
     }
+
+    const fmtDefaultValue = defaultValue ? new Date(defaultValue).toISOString().replace(/\..+$/, "") : undefined
+
     return (
         <>
             <input
                 {...attrs}
-                defaultValue={defaultValue}
+                defaultValue={fmtDefaultValue}
                 type="datetime-local"
                 onChange={handleChange}
             />

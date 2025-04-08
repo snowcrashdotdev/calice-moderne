@@ -18,7 +18,7 @@ export default function TournamentList({ tournaments }: { tournaments: Tournamen
                     {tournaments.map(t => (
                         <tr key={t.id}>
                             <td><input type="checkbox"></input></td>
-                            <td><Link to={`/${t.id}`}>{t.title}</Link></td>
+                            <td><Link to={`/${t.id}/edit`}>{t.title}</Link></td>
                         </tr>
                     ))}
                 </tbody>
