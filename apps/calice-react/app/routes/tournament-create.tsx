@@ -2,6 +2,7 @@ import type { Route } from "./+types/create";
 import TournamentForm from "~/components/admin/TournamentForm";
 import { createTournamentSchema, ZodError } from "@calice/validators";
 import api from "~/api";
+import { redirect } from "react-router";
 
 export async function action({ request }: Route.ActionArgs) {
     const formData = await request.formData()
@@ -12,7 +13,13 @@ export async function action({ request }: Route.ActionArgs) {
         )
 
         const res = await api.tournaments.$post({ json: validated })
-        return res
+
+        if (res.ok) {
+            const newTournament = await res.json()
+            return redirect(`/${newTournament.id}/edit`)
+        } else {
+            return res
+        }
     } catch (err) {
         let errors = {}
         if (err instanceof ZodError) {
