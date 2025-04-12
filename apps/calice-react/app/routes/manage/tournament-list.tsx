@@ -1,5 +1,5 @@
-import type { Route } from "./+types/home";
-import TournamentList from "~/components/admin/TournamentList";
+import type { Route } from "./+types/tournament-list";
+import DashboardList from "~/components/admin/DashboardList";
 import api from "~/api"
 
 export async function loader() {
@@ -17,6 +17,6 @@ export function meta({ }: Route.MetaArgs) {
     ];
 }
 
-export default function Tournaments({ loaderData }: Route.ComponentProps) {
-    return <TournamentList tournaments={loaderData} />;
+export default function ManageTournaments({ loaderData }: Route.ComponentProps) {
+    return <DashboardList items={loaderData} columns={["title", "startTime", "endTime"]} />;
 }
