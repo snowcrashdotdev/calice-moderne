@@ -1,9 +1,11 @@
 import { Hono } from 'hono'
-import tournaments from "./routers/tournaments"
+import { tournament, game } from "~/routers"
 
 const app = new Hono()
 
-const routes = app.route("/tournaments", tournaments)
+const routes = app
+    .route("/tournaments", tournament)
+    .route("/games", game)
 
 export type RPCCalice = typeof routes
 

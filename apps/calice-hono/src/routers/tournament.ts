@@ -1,7 +1,7 @@
 import { Hono } from 'hono'
 import { zValidator } from '@hono/zod-validator'
 import { createTournamentSchema, updateTournamentSchema } from '@calice/validators'
-import { withTournamentRepository } from '../db'
+import { withTournamentRepository } from '~/db'
 
 const router = new Hono()
     .use(withTournamentRepository)
