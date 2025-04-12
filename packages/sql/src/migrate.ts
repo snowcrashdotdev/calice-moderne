@@ -21,7 +21,7 @@ const migrate = async () => {
         provider
     })
 
-    const _rollback = await migrator.migrateDown()
+    await migrator.migrateDown()
 
     const { error, results } = await migrator.migrateUp()
 
