@@ -12,9 +12,9 @@ export default interface GameTable {
 
   title: ColumnType<string, string, string>;
 
-  description: ColumnType<string | null, string | null, string | null>;
+  filename: ColumnType<string | null, string | null, string | null>;
 
-  image: ColumnType<string | null, string | null, string | null>;
+  imageUrl: ColumnType<string | null, string | null, string | null>;
 }
 
 export type Game = Selectable<GameTable>;
