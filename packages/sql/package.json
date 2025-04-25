@@ -12,15 +12,15 @@
   },
   "packageManager": "pnpm@10.6.3",
   "devDependencies": {
-    "@types/node": "^22.14.1",
-    "@types/pg": "^8.11.12",
-    "kanel": "^3.11.1",
-    "kanel-kysely": "^0.7.0",
+    "@types/node": "^22.15.2",
+    "@types/pg": "^8.11.14",
+    "kanel": "^3.13.0",
+    "kanel-kysely": "^0.7.1",
     "tsx": "^4.19.3",
     "typescript": "^5.8.3"
   },
   "dependencies": {
-    "kysely": "^0.27.6",
-    "pg": "^8.14.1"
+    "kysely": "^0.28.2",
+    "pg": "^8.15.6"
   }
 }
