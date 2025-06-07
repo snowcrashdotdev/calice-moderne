@@ -8,10 +8,12 @@
   "scripts": {
     "codegen": "tsx ./codegen.ts",
     "migrate": "tsx ./src/migrate.ts",
-    "postmigrate": "pnpm codegen"
+    "postmigrate": "pnpm codegen",
+    "seed": "tsx ./src/seed.ts"
   },
   "packageManager": "pnpm@10.6.3",
   "devDependencies": {
+    "@faker-js/faker": "^9.8.0",
     "@types/node": "^22.15.30",
     "@types/pg": "^8.15.4",
     "kanel": "^3.14.1",
