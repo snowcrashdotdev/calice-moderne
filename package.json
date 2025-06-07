@@ -4,7 +4,7 @@
   "keywords": [],
   "author": "",
   "scripts": {
-    "dev": "pnpm run --filter \"./apps/**\" --parallel --aggregate-output dev"
+    "dev": "pnpm run --parallel --aggregate-output --if-present --filter=./apps/** dev"
   },
   "license": "ISC",
   "packageManager": "pnpm@10.6.5+sha512.cdf928fca20832cd59ec53826492b7dc25dc524d4370b6b4adbf65803d32efaa6c1c88147c0ae4e8d579a6c9eec715757b50d4fa35eea179d868eada4ed043af"
