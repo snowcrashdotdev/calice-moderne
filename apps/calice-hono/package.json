@@ -9,12 +9,12 @@
   "dependencies": {
     "@calice/sql": "workspace:^",
     "@calice/validators": "workspace:^",
-    "@hono/zod-validator": "^0.4.3",
-    "hono": "^4.7.7",
+    "@hono/zod-validator": "^0.7.0",
+    "hono": "^4.7.11",
     "kysely": "^0.28.2"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20250425.0",
-    "wrangler": "^4.13.2"
+    "@cloudflare/workers-types": "^4.20250607.0",
+    "wrangler": "^4.19.1"
   }
 }
