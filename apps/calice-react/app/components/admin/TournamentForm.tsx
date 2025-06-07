@@ -7,8 +7,6 @@ export default function TournamentForm({ defaultValues }: { defaultValues?: Tour
 
     return (
         <fetcher.Form method="post" className="flex flex-col items-start gap-4">
-            {fetcher.state}
-            {JSON.stringify(fetcher.data)}
             <label htmlFor="title">Title</label>
             <input type="text" name="title" defaultValue={defaultValues?.title}></input>
             <label htmlFor="description">Description</label>
