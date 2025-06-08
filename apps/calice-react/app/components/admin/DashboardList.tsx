@@ -1,9 +1,12 @@
+import { useState } from "react"
 import { Link } from "react-router"
 
 export default function DashboardList<T extends { id: string }>({ columns, items }: {
     items: T[],
     columns: (keyof T)[]
 }) {
+    const [selected, setSelected] = useState<string[]>([])
+
     return (
         <section className="flex-grow p-2">
             <header className="flex p-4 bg-gray-100">
@@ -12,7 +15,11 @@ export default function DashboardList<T extends { id: string }>({ columns, items
             <table>
                 <thead>
                     <tr>
-                        <th><input type="checkbox" /></th>
+                        <th><input type="checkbox" checked={selected.length === items.length ? true : false} onChange={(e) => {
+                            const isCheckedNow = e.currentTarget.checked
+                            const selectedItems = false === isCheckedNow ? [] : items.map(i => i.id)
+                            setSelected(selectedItems)
+                        }} /></th>
                         {columns.map(c => (
                             <th key={c.toString()}>{c.toString()}</th>
                         ))}
@@ -21,7 +28,13 @@ export default function DashboardList<T extends { id: string }>({ columns, items
                 <tbody>
                     {items.map(i => (
                         <tr key={i.id}>
-                            <td><input type="checkbox" /></td>
+                            <td><input type="checkbox" checked={selected.includes(i.id) ? true : false} onChange={(e) => {
+                                if (e.currentTarget.checked) {
+                                    setSelected([...selected, i.id])
+                                } else {
+                                    setSelected(selected.filter(id => id !== i.id))
+                                }
+                            }} /></td>
                             {columns.map((c, index) => {
                                 const content = i[c] as string
 
