@@ -7,13 +7,13 @@ export default function Dashboard() {
         ["/manage/games", "Games"]
     ].map(([to, label]) => (
         <li key={label.toLowerCase()}>
-            <NavLink to={to} className={({ isActive }) => isActive ? "underline" : ""} end>{label}</NavLink>
+            <NavLink className="block p-3 aria-current:bg-blue-100" to={to}  end>{label}</NavLink>
         </li>
     ))
     return (
         <Main className="gap-10">
-            <aside>
-                <ul>
+            <aside className="p-6">
+                <ul className="flex flex-col">
                     {menu}
                 </ul>
             </aside>
