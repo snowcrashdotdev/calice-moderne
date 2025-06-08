@@ -5,9 +5,9 @@ export default function DashboardList<T extends { id: string }>({ columns, items
     columns: (keyof T)[]
 }) {
     return (
-        <section className="flex-grow">
-            <header className="flex justify-end">
-                <Link to="create">Create</Link>
+        <section className="flex-grow p-2">
+            <header className="flex p-4 bg-gray-100">
+                <Link className="bg-green-600 text-white font-semibold px-4 py-2 rounded" to="create">Create</Link>
             </header>
             <table>
                 <thead>
