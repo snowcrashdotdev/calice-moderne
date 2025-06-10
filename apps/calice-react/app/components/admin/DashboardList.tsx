@@ -18,23 +18,23 @@ export default function DashboardList<T extends { id: string }>({ columns, items
             <header className="flex p-4 bg-gray-100">
                 <Link className="bg-green-600 text-white font-semibold px-4 py-2 rounded" to="create">Create</Link>
             </header>
-            <table>
-                <thead>
+            <table className="w-full">
+                <thead className="bg-gray-200">
                     <tr>
-                        <th><input type="checkbox" checked={selected.size === items.length ? true : false} onChange={(e) => {
+                        <th className="p-2 pl-1"><input type="checkbox" checked={items.length > 0 && (selected.size === items.length) ? true : false} onChange={(e) => {
                             const isCheckedNow = e.currentTarget.checked
                             const selectedItems = false === isCheckedNow ? [] : items.map(i => i.id)
                             setSelected(new Set(selectedItems))
                         }} /></th>
                         {columns.map(c => (
-                            <th key={c.toString()}>{toTitleCase(c.toString())}</th>
+                            <th className="p-2" key={c.toString()}>{toTitleCase(c.toString())}</th>
                         ))}
                     </tr>
                 </thead>
                 <tbody>
                     {items.map(i => (
                         <tr key={i.id}>
-                            <td><input type="checkbox" checked={selected.has(i.id) ? true : false} onChange={(e) => {
+                            <td className="p-1"><input type="checkbox" checked={selected.has(i.id) ? true : false} onChange={(e) => {
                                 if (e.currentTarget.checked) {
                                     setSelected(new Set([...selected, i.id]))
                                 } else {
@@ -47,7 +47,7 @@ export default function DashboardList<T extends { id: string }>({ columns, items
                                 const content = i[c] as string
 
                                 return (
-                                    <td key={i.id + c.toString()}>
+                                    <td className="p-1" key={i.id + c.toString()}>
                                         {index === 0 ? (
                                             <Link className="font-semibold" to={`${i.id}/edit`}>{content}</Link>
                                         ) : (content)}
