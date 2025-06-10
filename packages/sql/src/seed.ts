@@ -3,12 +3,13 @@ import { getDatabase } from './connect'
 import { connection } from "../kanelrc"
 import type { NewTournament } from './public/Tournament';
 
-export function createRandomTournament() : NewTournament {
+export function createRandomTournament(): NewTournament {
     const startTime = faker.date.anytime()
-    const endTime = faker.date.soon({refDate: startTime})
+    const endTime = faker.date.soon({ refDate: startTime })
+    const title = faker.lorem.words({ min: 3, max: 6 }).split(" ").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ")
 
     return {
-        title: faker.lorem.sentence({ min: 3, max: 5 }),
+        title,
         startTime,
         endTime
     }
@@ -16,7 +17,7 @@ export function createRandomTournament() : NewTournament {
 
 const run = async () => {
     const db = getDatabase(connection);
-    const tournaments = Array.from({length: 20}, createRandomTournament)
+    const tournaments = Array.from({ length: 20 }, createRandomTournament)
 
     await db.insertInto("tournament").values(tournaments).execute()
 }
