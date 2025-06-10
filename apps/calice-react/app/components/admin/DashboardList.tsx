@@ -5,7 +5,7 @@ export default function DashboardList<T extends { id: string }>({ columns, items
     items: T[],
     columns: (keyof T)[]
 }) {
-    const [selected, setSelected] = useState<string[]>([])
+    const [selected, setSelected] = useState<Set<string>>(new Set())
 
     return (
         <section className="flex-grow p-2">
@@ -15,10 +15,10 @@ export default function DashboardList<T extends { id: string }>({ columns, items
             <table>
                 <thead>
                     <tr>
-                        <th><input type="checkbox" checked={selected.length === items.length ? true : false} onChange={(e) => {
+                        <th><input type="checkbox" checked={selected.size === items.length ? true : false} onChange={(e) => {
                             const isCheckedNow = e.currentTarget.checked
                             const selectedItems = false === isCheckedNow ? [] : items.map(i => i.id)
-                            setSelected(selectedItems)
+                            setSelected(new Set(selectedItems))
                         }} /></th>
                         {columns.map(c => (
                             <th key={c.toString()}>{c.toString()}</th>
@@ -28,11 +28,13 @@ export default function DashboardList<T extends { id: string }>({ columns, items
                 <tbody>
                     {items.map(i => (
                         <tr key={i.id}>
-                            <td><input type="checkbox" checked={selected.includes(i.id) ? true : false} onChange={(e) => {
+                            <td><input type="checkbox" checked={selected.has(i.id) ? true : false} onChange={(e) => {
                                 if (e.currentTarget.checked) {
-                                    setSelected([...selected, i.id])
+                                    setSelected(new Set([...selected, i.id]))
                                 } else {
-                                    setSelected(selected.filter(id => id !== i.id))
+                                    if (selected.delete(i.id)) {
+                                        setSelected(new Set([...selected]))
+                                    }
                                 }
                             }} /></td>
                             {columns.map((c, index) => {
