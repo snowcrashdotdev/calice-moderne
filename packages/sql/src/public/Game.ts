@@ -4,7 +4,7 @@
 import type { ColumnType, Selectable, Insertable, Updateable } from 'kysely';
 
 /** Identifier type for public.game */
-export type GameId = string & { __brand: 'GameId' };
+export type GameId = string & { __brand: 'public.game' };
 
 /** Represents the table public.game */
 export default interface GameTable {

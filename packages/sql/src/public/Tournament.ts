@@ -4,7 +4,7 @@
 import type { ColumnType, Selectable, Insertable, Updateable } from 'kysely';
 
 /** Identifier type for public.tournament */
-export type TournamentId = string & { __brand: 'TournamentId' };
+export type TournamentId = string & { __brand: 'public.tournament' };
 
 /** Represents the table public.tournament */
 export default interface TournamentTable {
