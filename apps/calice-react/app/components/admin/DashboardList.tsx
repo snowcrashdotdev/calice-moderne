@@ -1,6 +1,12 @@
 import { useState } from "react"
 import { Link } from "react-router"
 
+const toTitleCase = (s: string) =>
+    s.replace(/([A-Z][a-z]|[A-Z]+(?=[A-Z]|$))/g, " $1")
+        .replace(/./, m => m.toUpperCase())
+        .trim()
+    ;
+
 export default function DashboardList<T extends { id: string }>({ columns, items }: {
     items: T[],
     columns: (keyof T)[]
@@ -21,7 +27,7 @@ export default function DashboardList<T extends { id: string }>({ columns, items
                             setSelected(new Set(selectedItems))
                         }} /></th>
                         {columns.map(c => (
-                            <th key={c.toString()}>{c.toString()}</th>
+                            <th key={c.toString()}>{toTitleCase(c.toString())}</th>
                         ))}
                     </tr>
                 </thead>
