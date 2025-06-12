@@ -1,5 +1,5 @@
 import api from "~/api";
-import type { Route } from "./+types/tournament-update";
+import type { Route } from "./+types/update";
 import { updateTournamentSchema, ZodError } from "@calice/validators";
 import TournamentForm from "~/components/admin/TournamentForm";
 
