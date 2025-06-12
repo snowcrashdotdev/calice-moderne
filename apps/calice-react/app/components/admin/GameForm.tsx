@@ -6,7 +6,8 @@ export default function GameForm() {
     const fetcher = useFetcher()
 
     return (
-        <fetcher.Form action="post" className="flex flex-col gap-4">
+        <fetcher.Form method="post" className="flex flex-col gap-6">
+            <h1 className="text-lg font-bold">New Game</h1>
             <Field>
                 <label>Title</label>
                 <TextInput id="title" name="title" />
@@ -15,6 +16,7 @@ export default function GameForm() {
                 <label>Filename</label>
                 <TextInput id="filename" name="filename" />
             </Field>
+            <button type="submit" className="block border rounded self-start font-semibold px-2 py-3">Create</button>
         </fetcher.Form>
     )
 }
