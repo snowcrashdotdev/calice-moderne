@@ -11,7 +11,7 @@ export default [
         route("/:id/edit", "./routes/manage/tournament/update.tsx"),
         ...prefix("games", [
             route("/create", "./routes/manage/game/create.tsx"),
-            route("/:id", "./routes/manage/game/update.tsx")
+            route("/:id/edit", "./routes/manage/game/update.tsx")
         ])
     ])
 

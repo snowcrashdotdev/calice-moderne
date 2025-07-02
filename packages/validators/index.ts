@@ -15,7 +15,7 @@ export const createGameSchema = z.object({
     imageUrl: z.string().optional()
 })
 
-export const updateGameSchema = createTournamentSchema.partial()
+export const updateGameSchema = createGameSchema.partial()
 
 export const createRuleSetSchema = z.object({
     narrative: z.string()
